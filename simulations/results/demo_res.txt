@@ -1,0 +1,10 @@
+"method" "pwr" "dist" "n" "p"
+"AR" 1 "mvlogis" 50 40
+"NEW" 0.06 "mvlogis" 50 40
+"E" 0.23 "mvlogis" 50 40
+"Tn" 0.49 "mvlogis" 50 40
+"method" "pwr" "dist" "n" "p"
+"AR" 1 "mvlogis" 50 50
+"NEW" 0.08 "mvlogis" 50 50
+"E" 0.05 "mvlogis" 50 50
+"Tn" 1 "mvlogis" 50 50

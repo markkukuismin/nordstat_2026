@@ -43,7 +43,7 @@ n = 50
 
 alt_dist = "mvlogis" # mvt, norm, mvlogis
 
-p = 40 # 40, 50, 70
+p = 50 # 40, 50, 70
 
 df = 5
 
@@ -153,7 +153,9 @@ paste0(b, collapse = " & ")
 hist(ar_stat_null, 
      probability = T,
      xlim = c(min(c(ar_stat, ar_stat_null)),
-              max(c(ar_stat, ar_stat_null))))
+              max(c(ar_stat, ar_stat_null))),
+     xlab = expression(rho),
+     main = "Simulated test statistic values under alternative and null")
 
 hist(ar_stat, 
      probability = T,
@@ -178,21 +180,10 @@ D2 = data.frame(rhos = c(rhos),
                 p = p,
                 sim = rep(1:M, each = n))
 
-fpath1 = "simulations/demo_res.txt"
-fpath2 = "simulations/demo_res_extra.txt"
+fpath1 = "simulations/results/demo_res.txt"
 
 write.table(D1, 
             file = fpath1,
             append = TRUE,
             row.names = FALSE)
 
-write.table(D2, 
-            file = fpath2,
-            append = TRUE,
-            row.names = FALSE)
-
-x = matrix(rnorm(1000*6), 1000, 6)
-system.time(d <- ar_dist(x, thumb = "silverman"))
-
-x = matrix(runif(1000*6), 1000, 6)
-system.time(d <- ar_dist(x, thumb = "silverman"))
