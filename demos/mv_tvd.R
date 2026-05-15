@@ -12,7 +12,7 @@ p = 50
 
 du = 5
 
-ddist = "logis"
+ddist = "Multivariate logistic"
 
 I =  diag(1, p)
 mu = rep(0, p)
@@ -56,7 +56,7 @@ ar_stat = c()
 
 for(n in sample_sizes){
   
-  if(ddist == "logis"){
+  if(ddist == "Multivariate logistic"){
     
     x = NonNorMvtDist::rmvlogis(n,
                                 parm1 = mu,
@@ -64,13 +64,13 @@ for(n in sample_sizes){
     
   }
   
-  if(ddist == "norm"){
+  if(ddist == "Multivariate normal"){
     
     x = MASS::mvrnorm(n, mu = mu, Sigma = I)
     
   }
   
-  if(ddist == "t"){
+  if(ddist == "Multivariate t"){
     
     x = mvtnorm::rmvt(n = n, delta = mu, sigma = I, df = du)
     
@@ -112,7 +112,7 @@ for(k in 1:(M - 1)){
     
     for(n in sample_sizes){
       
-      if(ddist == "logis"){
+      if(ddist == "Multivariate logistic"){
         
         x = NonNorMvtDist::rmvlogis(n,
                                     parm1 = mu,
@@ -120,13 +120,13 @@ for(k in 1:(M - 1)){
         
       }
       
-      if(ddist == "norm"){
+      if(ddist == "Multivariate normal"){
         
         x = MASS::mvrnorm(n, mu = mu, Sigma = I)
         
       }
       
-      if(ddist == "t"){
+      if(ddist == "Multivariate t"){
         
         x = mvtnorm::rmvt(n = n, delta = mu, sigma = I, df = du)
         
