@@ -1,0 +1,66 @@
+---
+title: "Pushing the AR test beyond the limit"
+subtitle: "A novel goodness-of-fit test for high-dimensional applications"
+author: "Markku Kuismin"
+institute: "University of Oulu, Northern Finland Birth Cohorts"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r out.width='100%', fig.height=6, eval=require('leaflet'), echo=FALSE}
+library(leaflet)
+leaflet() %>%
+  addTiles() %>%
+  setView(25.23685, 62.58855,  zoom = 4.5) %>%
+    addMarkers(c(25.5242, 24.9495), c(65.0075, 60.1696), label = c("25.52, 65.01", "60.17, 24.95"))
+```
+
+---
+
+class: center, middle
+
+# Background and motivation
+
+---
+
+# Background and motivation
+
+- In several applications, we want to know if random variable $X$ follows a specific multivariate distribution.
+
+--
+
+- For example, many methods for high-dimensional data (e.g., Gaussian Graphical Models) assume the population is normal.
+
+---
+
+# Background and motivation
+
+- Until we have a test that can detect the difference in 100\% power in every single scenario, this is still an open research problem...
+
+---
+
+# The A-R statistic
+
+---
+
+- 
+
+--
+
+-
+
+---
+
+class: center, middle
+
+# Thanks!
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+
+(Something a bit different for Beamer presentations.)
