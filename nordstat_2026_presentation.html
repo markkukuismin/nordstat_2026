@@ -4,20 +4,20 @@
     <title>Pushing the AR test beyond the limit</title>
     <meta charset="utf-8" />
     <meta name="author" content="Markku Kuismin" />
-    <meta name="date" content="2026-05-15" />
-    <script src="libs/header-attrs-2.31/header-attrs.js"></script>
-    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
-    <link href="libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
-    <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-    <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-    <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
-    <script src="libs/leaflet-1.3.1/leaflet.js"></script>
-    <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
-    <script src="libs/proj4-2.6.2/proj4.min.js"></script>
-    <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
-    <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
-    <script src="libs/leaflet-binding-2.2.3/leaflet.js"></script>
+    <meta name="date" content="2026-05-17" />
+    <script src="nordstat_2026_presentation_files/header-attrs-2.31/header-attrs.js"></script>
+    <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <link href="nordstat_2026_presentation_files/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
+    <script src="nordstat_2026_presentation_files/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+    <script src="nordstat_2026_presentation_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+    <link href="nordstat_2026_presentation_files/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+    <script src="nordstat_2026_presentation_files/leaflet-1.3.1/leaflet.js"></script>
+    <link href="nordstat_2026_presentation_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <script src="nordstat_2026_presentation_files/proj4-2.6.2/proj4.min.js"></script>
+    <script src="nordstat_2026_presentation_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+    <link href="nordstat_2026_presentation_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="nordstat_2026_presentation_files/leaflet-binding-2.2.3/leaflet.js"></script>
   </head>
   <body>
     <textarea id="source">
@@ -36,46 +36,204 @@ class: center, middle, inverse, title-slide
 ### University of Oulu, Northern Finland Birth Cohorts
 ]
 .date[
-### 2026-05-15
+### 2026-05-17
 ]
 
 ---
 
 
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-5629725b008a43a0a31e" style="width:100%;height:432px;"></div>
-<script type="application/json" data-for="htmlwidget-5629725b008a43a0a31e">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["25.52, 65.01","60.17, 24.95"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
+- I work as a biostatistician at the University of Oulu School of Medicine.
+
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-c7229c3eb7d2b652d925" style="width:100%;height:432px;"></div>
+<script type="application/json" data-for="htmlwidget-c7229c3eb7d2b652d925">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+- My research interests are (not limited to) high-dimensional statistic, non-parametric methods and statistical tests.
+
+--
+
+- Here I will introduce a novel multivariate test that also works in high-dimensional case.
 
 ---
 
 class: center, middle
 
-# Introduction
+# Background and motivation
 
 ---
 
 # Background and motivation
 
-- In several applications, we want to know if random variable `\(X\)` follows a specific multivariate distribution.
+- All parametric statistical methods built on assumptions about the the distribution of the random variable.
 
 --
 
-- In particular, many methods for high-dimensional data (e.g., Gaussian Graphical Models) assume the population is normal.
+- In multivariate applications dealing high-dimensional data assume the population distribution is multivariate normal.
+
+--
+
+  - Gaussian Graphical Models. If not normal `-&gt;` strict conditional-independence interpretation becomes weaker.
+
+--
+
+  - High-dimensional linear discriminant analysis. If not normal `-&gt;` other methods such as RF or SVMs may be more robust alternatives.
 
 ---
 
 # Background and motivation
 
----
-
-# The A-R statistic
-
----
-
-- 
+- `\(H_0: f = f_0\)`
 
 --
 
--
+- For example, `\(H_0: f\text{ is a multivariate normal distribution.}\)`
+
+--
+
+- Several test have been proposed (e.g., Kolmogorov–Smirnov, energy test by Székely and Rizzo (2005), a high-dimensional test by Chen, H &amp; Xia (2023) and many others)
+
+--
+
+- Until we have a test that can detect the difference in 100\% power in every single scenario, this is still an open research problem...
+
+---
+
+class: center, middle
+
+# The AR statistic
+
+---
+
+# The AR statistic
+
+- Based on the Accept-Reject (AR) algorithm.
+
+--
+
+`$$\rho = \frac{1}{n}\sum_{i=1}^n \text{I}\Bigl(\frac{f_0(X_i)}{Df(X_i)} &gt; U\Bigr).$$`
+
+--
+
+- `\(\rho\)` measures how often `\(X_i\)`s from a distribution with density `\(f\)` would be accepted as samples from distribution with density `\(f_0\)`. 
+
+---
+
+# The AR statistic
+
+- The algorithm was adapted in Kuismin (2026) for statistical inference.
+
+--
+
+- Main idea: compute `\(\rho\)` under null, that is assume that `\(f_0\)` and `\(f\)` are the same distribution (set the normalizing constant `\(D = 1\)`).
+
+--
+
+- Instead of generating pseudo random numbers from `\(f\)`, compute `\(\rho\)` with respect to the observed data. 
+
+---
+
+# The AR statistic
+
+Technical challenges:
+
+--
+
+- How to determine `\(f\)`?
+
+--
+
+`-&gt;` Estimate `\(f\)`, e.g., using KDE(...)
+
+--
+
+- `\(\rho\)` depends on an external random variable `\(U\)`. How to determine a deterministic 
+
+--
+
+`-&gt;` Use `\(E_U(\rho)\)` instead.
+
+--
+
+- Denote `\(\rho(\textbf{X}) = E_U(\rho) = n^{-1}\sum_{1=1}^n \min\left(1, f_0(X_i)/\widehat{f}(X_i)\right)\)`.
+
+---
+
+# The AR statistic
+
+The statistic has several attractive properties.
+
+--
+
+Direct probabilistic interpretation:
+
+- The AR statistic can be interpreted as an estimated acceptance probability.
+
+- It measures how often observations would be accepted under the hypothesized population distribution. 
+
+--
+
+- Values close to 1 indicate good agreement with the hypothesized distribution.
+
+- Values close to 0 indicate lack of fit and evidence against the model.
+
+--
+
+- Computing interval estimates for `\(\rho(\textbf{X})\)` can be done using simulations or Poisson-Binomial distribution.
+
+---
+
+# The AR statistic
+
+It is a global measure of distributional agreement
+
+--
+
+- It can detect differences in location, covariance, tail behavior, skewness, multimodality, and other shape features.
+
+--
+
+The statistic is connected to *total variation distance*.
+
+- It measures similarity between the true density `\(f\)` and the hypothesized density `\(f_0\)`.
+
+---
+
+# Total variation distance
+
+The total variation distance (TVD) between `\(f(x)\)` and `\(f_0(x)\)` is defined as 
+
+`$$\|f(x) - f_0(x)\|_{\text{TV}} = \frac{1}{2}\int_{\mathcal{X}}|f(x) - f_0(x)|\, dx.$$`
+Then, as `\(n \to \infty\)`,
+
+`$$\rho(\textbf{X}) \xrightarrow{P} 1 - \|f(x) - f_0(x)\|_{\text{TV}}.$$`
+
+See Kuismin (2026) for more detailed description and proof.
+
+---
+
+# Challenges 
+
+- The statistic depends on a density estimate `\(f\)`.
+
+--
+
+`-&gt;` Estimating `\(f\)` is more or less hopeless in high-dimensional setting.
+
+--
+
+- However, let's test how well `\(\rho(\textbf{X})\)` works when making decision whether to reject `\(H_0\)` or not.
+
+---
+
+# References
+
+Chen, H &amp; Xia, Y. (2023). A Normality Test for High-dimensional Data Based on the Nearest Neighbor Approach, Journal of the American Statistical Association,
+118, 719-731, https://doi.org/10.1080/01621459.2021.1953507
+
+Kuismin, M. (2025). Using the rejection sampling for finding tests. arXiv preprint arXiv:2509.10325.
+
+Székely, G. J. &amp; Rizzo, M. L. (2005). A new test for multivariate normality. Journal of Multivariate Analysis 93, 58-80, https://doi.org/10.1016/j.jmva.2003.12.002
 
 ---
 
@@ -88,7 +246,7 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
 (Something a bit different for Beamer presentations.)
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
-<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="libs/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
   "highlightStyle": "github",
   "highlightLines": true,
