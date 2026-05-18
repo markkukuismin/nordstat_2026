@@ -25,7 +25,7 @@ leaflet() %>%
 
 --
 
-- My research interests are (not limited to) high-dimensional statistic, non-parametric methods and statistical tests.
+- My research interests are (not limited to) high-dimensional statistic, non-parametric methods, statistical tests and rejection sampling.
 
 --
 
@@ -71,7 +71,7 @@ class: center, middle
 
 --
 
-- Until we have a test that can detect the difference in 100\% power in every single scenario, this is still an open research problem...
+- Until we have a test that can detect the difference in 100% power in every single scenario, this is still an open research problem...
 
 ---
 
@@ -91,7 +91,7 @@ $$\rho = \frac{1}{n}\sum_{i=1}^n \text{I}\Bigl(\frac{f_0(X_i)}{Df(X_i)} > U\Bigr
 
 --
 
-- $\rho$ measures how often $X_i$s from a distribution with density $f$ would be accepted as samples from distribution with density $f_0$. 
+- $\rho$ is the proportion of observations $X_i$, among $n$ observations drawn from a distribution with density $f$, that would be accepted as samples from the distribution with density $f_0$.
 
 ---
 
@@ -101,7 +101,15 @@ $$\rho = \frac{1}{n}\sum_{i=1}^n \text{I}\Bigl(\frac{f_0(X_i)}{Df(X_i)} > U\Bigr
 
 --
 
-- Main idea: compute $\rho$ under null, that is assume that $f_0$ and $f$ are the same distribution (set the normalizing constant $D = 1$).
+- Main idea: 
+
+--
+
+- Let $f$ be the true density (population density) and $f_0$ is the hypothesized density.
+
+--
+
+- Compute $\rho$ under null: Assume that $f_0$ and $f$ are the same distribution (set the normalizing constant $D = 1$).
 
 --
 
@@ -115,7 +123,7 @@ Technical challenges:
 
 --
 
-- How to determine $f$?
+- $f$ is unknown (naturally) and we only have observations from it. How to determine $f$?
 
 --
 
@@ -123,7 +131,7 @@ Technical challenges:
 
 --
 
-- $\rho$ depends on an external random variable $U$. How to determine a deterministic 
+- $\rho$ depends on an external random variable $U$. How to determine a deterministic test statistic?
 
 --
 
@@ -143,9 +151,13 @@ The statistic has several attractive properties.
 
 Direct probabilistic interpretation:
 
+--
+
 - The AR statistic can be interpreted as an estimated acceptance probability.
 
-- It measures how often observations would be accepted under the hypothesized population distribution. 
+--
+
+It measures how often observations would be accepted under the hypothesized population distribution. 
 
 --
 
@@ -155,7 +167,7 @@ Direct probabilistic interpretation:
 
 --
 
-- Computing interval estimates for $\rho(\textbf{X})$ can be done using simulations or Poisson-Binomial distribution.
+Interval estimates for $\rho(\textbf{X})$ can be computed using simulations or Poisson-Binomial distribution.
 
 ---
 
@@ -175,6 +187,43 @@ The statistic is connected to *total variation distance*.
 
 ---
 
+# Distribution of the test statistic
+
+- Multivariate t distribution with a non-identity scale matrix, df = 5, n = 200, p = 300
+
+```{r message=FALSE, warning=FALSE, echo = FALSE}
+library(ggplot2)
+source("functions/ar_dist.R")
+set.seed(1)
+n = 100
+p = 200
+
+sigma_alt = diag(runif(p, min = 1, max = 1.5))
+df = 5
+X = mvtnorm::rmvt(n, 
+                  sigma = sigma_alt, 
+                  df = df,
+                  type = "shifted")
+
+res = ar_dist(X, sim_dist = TRUE)
+df = data.frame(rho = res$rho_sim)
+
+ggplot(df, aes(x = rho)) + 
+  geom_histogram(aes(y = ..density..),
+                 colour = 1, fill = "white") +
+  geom_density(linewidth = 1.1)
+```
+
+--
+
+- For comparison, so called energy test statistic cannot be computed when $p > n$,
+
+```{r}
+energy::mvnorm.test(X, R = 10)
+```
+
+---
+
 # Total variation distance
 
 The total variation distance (TVD) between $f(x)$ and $f_0(x)$ is defined as 
@@ -182,9 +231,10 @@ The total variation distance (TVD) between $f(x)$ and $f_0(x)$ is defined as
 $$\|f(x) - f_0(x)\|_{\text{TV}} = \frac{1}{2}\int_{\mathcal{X}}|f(x) - f_0(x)|\, dx.$$
 Then, as $n \to \infty$,
 
-$$\rho(\textbf{X}) \xrightarrow{P} 1 - \|f(x) - f_0(x)\|_{\text{TV}}.$$
+$$\rho(\textbf{X}) \xrightarrow{P} 1 - \|f(x) - f_0(x)\|_{\text{TV}},$$
+where $f$ is the true density (population density) and $f_0$ is the hypothesized density.
 
-See Kuismin (2026) for more detailed description and proof.
+- See Kuismin (2026) for more detailed description and proof.
 
 ---
 

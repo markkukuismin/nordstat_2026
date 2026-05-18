@@ -4,7 +4,7 @@
     <title>Pushing the AR test beyond the limit</title>
     <meta charset="utf-8" />
     <meta name="author" content="Markku Kuismin" />
-    <meta name="date" content="2026-05-17" />
+    <meta name="date" content="2026-05-18" />
     <script src="nordstat_2026_presentation_files/header-attrs-2.31/header-attrs.js"></script>
     <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
@@ -36,7 +36,7 @@ class: center, middle, inverse, title-slide
 ### University of Oulu, Northern Finland Birth Cohorts
 ]
 .date[
-### 2026-05-17
+### 2026-05-18
 ]
 
 ---
@@ -44,12 +44,12 @@ class: center, middle, inverse, title-slide
 
 - I work as a biostatistician at the University of Oulu School of Medicine.
 
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-c7229c3eb7d2b652d925" style="width:100%;height:432px;"></div>
-<script type="application/json" data-for="htmlwidget-c7229c3eb7d2b652d925">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-b1581a6df85ba8eab5d4" style="width:100%;height:432px;"></div>
+<script type="application/json" data-for="htmlwidget-b1581a6df85ba8eab5d4">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
 
 --
 
-- My research interests are (not limited to) high-dimensional statistic, non-parametric methods and statistical tests.
+- My research interests are (not limited to) high-dimensional statistic, non-parametric methods, statistical tests and rejection sampling.
 
 --
 
@@ -95,7 +95,7 @@ class: center, middle
 
 --
 
-- Until we have a test that can detect the difference in 100\% power in every single scenario, this is still an open research problem...
+- Until we have a test that can detect the difference in 100% power in every single scenario, this is still an open research problem...
 
 ---
 
@@ -115,7 +115,7 @@ class: center, middle
 
 --
 
-- `\(\rho\)` measures how often `\(X_i\)`s from a distribution with density `\(f\)` would be accepted as samples from distribution with density `\(f_0\)`. 
+- `\(\rho\)` is the proportion of observations `\(X_i\)`, among `\(n\)` observations drawn from a distribution with density `\(f\)`, that would be accepted as samples from the distribution with density `\(f_0\)`.
 
 ---
 
@@ -125,7 +125,15 @@ class: center, middle
 
 --
 
-- Main idea: compute `\(\rho\)` under null, that is assume that `\(f_0\)` and `\(f\)` are the same distribution (set the normalizing constant `\(D = 1\)`).
+- Main idea: 
+
+--
+
+- Let `\(f\)` be the true density (population density) and `\(f_0\)` is the hypothesized density.
+
+--
+
+- Compute `\(\rho\)` under null: Assume that `\(f_0\)` and `\(f\)` are the same distribution (set the normalizing constant `\(D = 1\)`).
 
 --
 
@@ -139,7 +147,7 @@ Technical challenges:
 
 --
 
-- How to determine `\(f\)`?
+- `\(f\)` is unknown (naturally) and we only have observations from it. How to determine `\(f\)`?
 
 --
 
@@ -147,7 +155,7 @@ Technical challenges:
 
 --
 
-- `\(\rho\)` depends on an external random variable `\(U\)`. How to determine a deterministic 
+- `\(\rho\)` depends on an external random variable `\(U\)`. How to determine a deterministic test statistic?
 
 --
 
@@ -167,9 +175,13 @@ The statistic has several attractive properties.
 
 Direct probabilistic interpretation:
 
+--
+
 - The AR statistic can be interpreted as an estimated acceptance probability.
 
-- It measures how often observations would be accepted under the hypothesized population distribution. 
+--
+
+It measures how often observations would be accepted under the hypothesized population distribution. 
 
 --
 
@@ -179,7 +191,7 @@ Direct probabilistic interpretation:
 
 --
 
-- Computing interval estimates for `\(\rho(\textbf{X})\)` can be done using simulations or Poisson-Binomial distribution.
+Interval estimates for `\(\rho(\textbf{X})\)` can be computed using simulations or Poisson-Binomial distribution.
 
 ---
 
@@ -199,6 +211,119 @@ The statistic is connected to *total variation distance*.
 
 ---
 
+# Distribution of the test statistic
+
+- Multivariate t distribution with a non-identity scale matrix, df = 5, n = 200, p = 300
+
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+
+--
+
+- For comparison, so called energy test statistic cannot be computed when `\(p &gt; n\)`,
+
+
+``` r
+energy::mvnorm.test(X, R = 10)
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(data, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## Warning in sqrt(lambda): NaNs produced
+```
+
+```
+## Warning in statistic(dd, ...): missing or non-finite y
+```
+
+```
+## 
+## 	Energy test of multivariate normality: estimated parameters
+## 
+## data:  x, sample size 100, dimension 200, replicates 10
+## E-statistic = NA, p-value = NA
+```
+
+---
+
 # Total variation distance
 
 The total variation distance (TVD) between `\(f(x)\)` and `\(f_0(x)\)` is defined as 
@@ -206,9 +331,10 @@ The total variation distance (TVD) between `\(f(x)\)` and `\(f_0(x)\)` is define
 `$$\|f(x) - f_0(x)\|_{\text{TV}} = \frac{1}{2}\int_{\mathcal{X}}|f(x) - f_0(x)|\, dx.$$`
 Then, as `\(n \to \infty\)`,
 
-`$$\rho(\textbf{X}) \xrightarrow{P} 1 - \|f(x) - f_0(x)\|_{\text{TV}}.$$`
+`$$\rho(\textbf{X}) \xrightarrow{P} 1 - \|f(x) - f_0(x)\|_{\text{TV}},$$`
+where `\(f\)` is the true density (population density) and `\(f_0\)` is the hypothesized density.
 
-See Kuismin (2026) for more detailed description and proof.
+- See Kuismin (2026) for more detailed description and proof.
 
 ---
 
