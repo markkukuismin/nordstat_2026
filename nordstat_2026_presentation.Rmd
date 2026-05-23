@@ -189,37 +189,98 @@ The statistic is connected to *total variation distance*.
 
 # Distribution of the test statistic
 
-- Multivariate t distribution with a non-identity scale matrix, df = 5, n = 200, p = 300
+- The population distribution is multivariate uniform distribution, independent variables, $p = 10$.
 
-```{r message=FALSE, warning=FALSE, echo = FALSE}
-library(ggplot2)
-source("functions/ar_dist.R")
+- Approximate the distribution of the test statistic by running the AR algorithm multiple times and compare it with the PoissonBinomial distribution.
+
+- The black vertical line illustrates the 1 - TVD between multivariate normal and multivariate uniform distribution, approximated using Monte Carlo integration.
+
+```{r message=FALSE, warning=FALSE, echo = FALSE, out.width='100%', fig.height=3}
 set.seed(1)
-n = 100
-p = 200
 
-sigma_alt = diag(runif(p, min = 1, max = 1.5))
-df = 5
-X = mvtnorm::rmvt(n, 
-                  sigma = sigma_alt, 
-                  df = df,
-                  type = "shifted")
+source("functions/compute_multivariate_tvd.R")
 
-res = ar_dist(X, sim_dist = TRUE)
-df = data.frame(rho = res$rho_sim)
+p = 5
 
-ggplot(df, aes(x = rho)) + 
-  geom_histogram(aes(y = ..density..),
-                 colour = 1, fill = "white") +
-  geom_density(linewidth = 1.1)
-```
+Sigma = diag(1, p)
+mu = rep(0, p)
 
---
+N = c(100, 120, 150)
 
-- For comparison, so called energy test statistic cannot be computed when $p > n$,
+M = 10^5
 
-```{r}
-energy::mvnorm.test(X, R = 10)
+i = 1
+
+Q2 = data.frame()
+
+par(mfrow = c(1, 3), 
+    cex.axis=1.5,
+    mar = c(5.1, 5.1, 4.1, 2.1))
+
+for(n in N){
+  
+  x = NonNorMvtDist::rmvunif(n = n,
+                             dim = p)
+  
+  fhat = Rfast2::kernel(x)
+  
+  rhox = mvtnorm::dmvnorm(x)/fhat
+  
+  rhox[is.na(rhox)] = 0
+  
+  rhox = ifelse(rhox > 1, 1, rhox)
+  
+  rho = mean(rhox)
+  
+  U = matrix(runif(n*M), n, M)
+  
+  f = function(x) rhox > x
+  
+  I = apply(U, 2, f)
+  
+  d = colMeans(I)
+  
+  a = table(d)/M
+  
+  a = as.numeric(names(a))
+  
+  plot(table(d)/M, 
+       type = "h",
+       xlab = expression(rho),
+       #ylab = "Probability",
+       ylab = " ",
+       main = paste0("n = ", n),
+       lwd = 4,
+       cex.lab = 2,
+       col = "darkgray",
+       xaxt = "n",
+       xlim = c(0, 0.15))
+  
+  axis(1,
+       at = a,
+       labels = as.character(round(a, 2)))
+  
+  xx = 0:n
+  
+  probpb = poibin::dpoibin(xx, pp = rhox)
+  
+  lines(xx/n + 0.002, 
+        probpb, 
+        type = "h", 
+        lwd = 4, 
+        col = rgb(red=0, green=0, blue=1, alpha=0.5))
+  
+  abline(v = rho, lty = 2, lwd = 4, col = "red")
+  
+  if(i == 1){
+   tvd_u = compute_multivariate_tvd(p=p) 
+  }
+  
+  abline(v = 1 - tvd_u, lwd = 3)
+  
+  i = i + 1
+  
+}
 ```
 
 ---
@@ -238,6 +299,46 @@ where $f$ is the true density (population density) and $f_0$ is the hypothesized
 
 ---
 
+# Total variation distance
+
+## TVD - multivariate logistic
+
+--
+
+![](tvd_mvlogistic_p5.png)
+
+--
+
+- Multivariate logistic distribution, $p=5$, location vector $\mathbf{0}$, and variance matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
+
+---
+
+# Total variation distance
+
+## TVD - multivariate t
+
+--
+
+![](tvd_mvt_p5.png)
+
+--
+
+- Multivariate t distribution, $p=5$, location vector $\mathbf{0}$, and variance/scale matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
+
+---
+
+## TVD - multivariate normal
+
+--
+
+![](tvd_mvnormal_p5.png)
+
+--
+
+- Multivariate normal distribution, $p=5$, location vector $\mathbf{0}$, and variance matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
+
+---
+
 # Challenges 
 
 - The statistic depends on a density estimate $f$.
@@ -249,6 +350,66 @@ where $f$ is the true density (population density) and $f_0$ is the hypothesized
 --
 
 - However, let's test how well $\rho(\textbf{X})$ works when making decision whether to reject $H_0$ or not.
+
+---
+
+class: center, middle
+
+# Going beyond the limit
+
+---
+
+# Going beyond the limit
+
+- Although density estimation becomes unfeasible when $p \gg n$ and $p$ increases, can we still get something useful?
+
+--
+
+- How does the AR statistic hold up?
+
+--
+
+- For comparison, the energy test statistic cannot be computed when $p > n$,
+
+```{r warning=FALSE}
+n = 40
+p = 50
+mu = rep(0, p)
+I = diag(1, p)
+x = mvtnorm::rmvnorm(n = n,
+                     mean = mu,
+                     sigma = I)
+energy::mvnorm.test(x, R = 500)
+```
+
+---
+
+# Going beyond the limit
+
+![](simulations/figures/p20_Multivariate logistic.png)
+
+---
+
+## TVD examples - multivariate logistic
+
+--
+
+![](tvd_mvlogistic_p50.png)
+---
+
+## TVD - multivariate t
+
+--
+
+![](tvd_mvt_p50.png)
+
+---
+
+## TVD - multivariate normal
+
+--
+
+![](tvd_mvnormal_p50.png)
 
 ---
 

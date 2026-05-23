@@ -43,7 +43,7 @@ n = 50
 
 alt_dist = "mvlogis" # mvt, norm, mvlogis
 
-p = 50 # 40, 50, 70
+p = 70 # 40, 50, 70
 
 df = 5
 

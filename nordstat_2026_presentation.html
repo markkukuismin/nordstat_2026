@@ -4,7 +4,7 @@
     <title>Pushing the AR test beyond the limit</title>
     <meta charset="utf-8" />
     <meta name="author" content="Markku Kuismin" />
-    <meta name="date" content="2026-05-18" />
+    <meta name="date" content="2026-05-23" />
     <script src="nordstat_2026_presentation_files/header-attrs-2.31/header-attrs.js"></script>
     <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
@@ -36,7 +36,7 @@ class: center, middle, inverse, title-slide
 ### University of Oulu, Northern Finland Birth Cohorts
 ]
 .date[
-### 2026-05-18
+### 2026-05-23
 ]
 
 ---
@@ -44,8 +44,8 @@ class: center, middle, inverse, title-slide
 
 - I work as a biostatistician at the University of Oulu School of Medicine.
 
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-b1581a6df85ba8eab5d4" style="width:100%;height:432px;"></div>
-<script type="application/json" data-for="htmlwidget-b1581a6df85ba8eab5d4">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-388053188eed756a64dc" style="width:100%;height:432px;"></div>
+<script type="application/json" data-for="htmlwidget-388053188eed756a64dc">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -213,114 +213,13 @@ The statistic is connected to *total variation distance*.
 
 # Distribution of the test statistic
 
-- Multivariate t distribution with a non-identity scale matrix, df = 5, n = 200, p = 300
+- The population distribution is multivariate uniform distribution, independent variables, `\(p = 10\)`.
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+- Approximate the distribution of the test statistic by running the AR algorithm multiple times and compare it with the PoissonBinomial distribution.
 
---
+- The black vertical line illustrates the 1 - TVD between multivariate normal and multivariate uniform distribution, approximated using Monte Carlo integration.
 
-- For comparison, so called energy test statistic cannot be computed when `\(p &gt; n\)`,
-
-
-``` r
-energy::mvnorm.test(X, R = 10)
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(data, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## Warning in sqrt(lambda): NaNs produced
-```
-
-```
-## Warning in statistic(dd, ...): missing or non-finite y
-```
-
-```
-## 
-## 	Energy test of multivariate normality: estimated parameters
-## 
-## data:  x, sample size 100, dimension 200, replicates 10
-## E-statistic = NA, p-value = NA
-```
+&lt;img src="nordstat_2026_presentation_files/figure-html/unnamed-chunk-2-1.png" alt="" width="100%" /&gt;
 
 ---
 
@@ -338,6 +237,46 @@ where `\(f\)` is the true density (population density) and `\(f_0\)` is the hypo
 
 ---
 
+# Total variation distance
+
+## TVD - multivariate logistic
+
+--
+
+![](tvd_mvlogistic_p5.png)
+
+--
+
+- Multivariate logistic distribution, `\(p=5\)`, location vector `\(\mathbf{0}\)`, and variance matrix `\(\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}\)`.
+
+---
+
+# Total variation distance
+
+## TVD - multivariate t
+
+--
+
+![](tvd_mvt_p5.png)
+
+--
+
+- Multivariate t distribution, `\(p=5\)`, location vector `\(\mathbf{0}\)`, and variance/scale matrix `\(\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}\)`.
+
+---
+
+## TVD - multivariate normal
+
+--
+
+![](tvd_mvnormal_p5.png)
+
+--
+
+- Multivariate normal distribution, `\(p=5\)`, location vector `\(\mathbf{0}\)`, and variance matrix `\(\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}\)`.
+
+---
+
 # Challenges 
 
 - The statistic depends on a density estimate `\(f\)`.
@@ -349,6 +288,75 @@ where `\(f\)` is the true density (population density) and `\(f_0\)` is the hypo
 --
 
 - However, let's test how well `\(\rho(\textbf{X})\)` works when making decision whether to reject `\(H_0\)` or not.
+
+---
+
+class: center, middle
+
+# Going beyond the limit
+
+---
+
+# Going beyond the limit
+
+- Although density estimation becomes unfeasible when `\(p \gg n\)` and `\(p\)` increases, can we still get something useful?
+
+--
+
+- How does the AR statistic hold up?
+
+--
+
+- For comparison, the energy test statistic cannot be computed when `\(p &gt; n\)`,
+
+
+``` r
+n = 40
+p = 50
+mu = rep(0, p)
+I = diag(1, p)
+x = mvtnorm::rmvnorm(n = n,
+                     mean = mu,
+                     sigma = I)
+energy::mvnorm.test(x, R = 500)
+```
+
+```
+## 
+## 	Energy test of multivariate normality: estimated parameters
+## 
+## data:  x, sample size 40, dimension 50, replicates 500
+## E-statistic = NA, p-value = NA
+```
+
+---
+
+# Going beyond the limit
+
+![](simulations/figures/p20_Multivariate logistic.png)
+
+---
+
+## TVD examples - multivariate logistic
+
+--
+
+![](tvd_mvlogistic_p50.png)
+---
+
+## TVD - multivariate t
+
+--
+
+![](tvd_mvt_p50.png)
+
+---
+
+## TVD - multivariate normal
+
+--
+
+![](tvd_mvnormal_p50.png)
 
 ---
 

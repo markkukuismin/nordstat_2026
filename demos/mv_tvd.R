@@ -6,13 +6,13 @@ source("functions/ar_dist.R")
 
 set.seed(1)
 
-B <- 10^6
+B <- 5*10^5
 
 p = 50
 
 du = 5
 
-ddist = "Multivariate logistic"
+ddist = "Multivariate normal" # Multivariate normal, t, logistic
 
 I =  diag(1, p)
 mu = rep(0, p)
@@ -22,11 +22,11 @@ mu = rep(0, p)
 x <- rmvnorm(B, mean = mu, sigma = I)
 
 g_vals <- dmvnorm(x, mean = mu, sigma = I)
-if(ddist == "t") f_vals <- dmvt(x, delta = mu, sigma = I, df = du, log = FALSE)
-if(ddist == "logis") f_vals = NonNorMvtDist::dmvlogis(x,parm1 = mu,parm2 = rep(1, p))
+if(ddist == "Multivariate t") f_vals <- dmvt(x, delta = mu, sigma = I, df = du, log = FALSE)
+if(ddist == "Multivariate logistic") f_vals = NonNorMvtDist::dmvlogis(x,parm1 = mu,parm2 = rep(1, p))
 
 
-if(ddist == "norm"){
+if(ddist == "Multivariate normal"){
   
   f_vals = dmvnorm(x, mean = mu, sigma = I)
   
@@ -35,10 +35,9 @@ if(ddist == "norm"){
 # Since x ~ g, we estimate:
 # 0.5 * int |f-g| dx
 # = 0.5 * E_g[ |f(X)-g(X)| / g(X) ]
-Y <- 0.5*abs(f_vals - g_vals)/g_vals
+Y <- 1 - 0.5*abs(f_vals - g_vals)/g_vals
 tv_mc = mean(Y)
 
-1 - tv_mc
 mc_se <- sd(Y)/sqrt(B)
 
 tv_mc
@@ -166,12 +165,13 @@ for(k in 1:(M - 1)){
 df = df/M
 
 pl = ggplot(df, aes(x = n, y = rho)) +
-  geom_point(size = 4) +
+  geom_point(size = 2) +
   geom_errorbar(aes(ymin = L, ymax = U), width = 2, linewidth = 1) +
   ylim(c(0, 1)) +
   geom_hline(yintercept = tv_mc + c(-1, 1)*1.96*mc_se, linetype = 2, linewidth = 1.5) +
   geom_hline(yintercept = tv_mc, linewidth = 1.5) +
   xlab("Sample size") +
-  ggtitle(paste0(ddist, ", p = ", p))
+  ggtitle(paste0(ddist, ", p = ", p)) +
+  ylab(expression(rho))
 
 pl

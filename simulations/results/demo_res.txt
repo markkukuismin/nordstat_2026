@@ -8,3 +8,8 @@
 "NEW" 0.08 "mvlogis" 50 50
 "E" 0.05 "mvlogis" 50 50
 "Tn" 1 "mvlogis" 50 50
+"method" "pwr" "dist" "n" "p"
+"AR" 1 "mvlogis" 50 70
+"NEW" 0.07 "mvlogis" 50 70
+"E" NA "mvlogis" 50 70
+"Tn" 1 "mvlogis" 50 70
