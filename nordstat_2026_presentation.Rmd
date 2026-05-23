@@ -25,11 +25,11 @@ leaflet() %>%
 
 --
 
-- My research interests are (not limited to) high-dimensional statistic, non-parametric methods, statistical tests and rejection sampling.
+- My research interests are (not limited to) high-dimensional statistic, non-parametric methods, statistical tests and **rejection sampling**.
 
 --
 
-- Here I will introduce a novel multivariate test that also works in high-dimensional case.
+- Here I will introduce a novel multivariate test based on rejection sampling that works in high-dimensional case.
 
 ---
 
@@ -41,11 +41,15 @@ class: center, middle
 
 # Background and motivation
 
-- All parametric statistical methods built on assumptions about the the distribution of the random variable.
+- All parametric statistical methods are built on assumptions about the population distribution of the random variable.
 
 --
 
 - In multivariate applications dealing high-dimensional data assume the population distribution is multivariate normal.
+
+--
+
+- For example,
 
 --
 
@@ -55,11 +59,17 @@ class: center, middle
 
   - High-dimensional linear discriminant analysis. If not normal `->` other methods such as RF or SVMs may be more robust alternatives.
 
+--
+
+  - Gaussian Mixture Models. If not normal `->` incorrectly merged clusters
+
 ---
 
 # Background and motivation
 
-- $H_0: f = f_0$
+For the rest of this presentation, the null hypothesis can be defined as,
+
+$$H_0: f = f_0$$
 
 --
 
@@ -72,6 +82,26 @@ class: center, middle
 --
 
 - Until we have a test that can detect the difference in 100% power in every single scenario, this is still an open research problem...
+
+---
+
+# Background and motivation
+
+--
+
+- The idea discussed here is not completely new:
+
+--
+
+  - Györfi, L., & Van Der Meulen, E. C. (1991) investigated a test statistic based on **Total variation distance** and showed how to build a procedure that is consistent against a large class of alternatives.
+  
+--
+
+- (I do not discuss about this test in detail and I am mentioning it to connect my test procedure in the earlier literature.)
+
+--
+
+- We will later talk little bit more about the total variation distance.
 
 ---
 
@@ -181,17 +211,43 @@ It is a global measure of distributional agreement
 
 --
 
-The statistic is connected to *total variation distance*.
+---
 
-- It measures similarity between the true density $f$ and the hypothesized density $f_0$.
+# The AR statistic
+
+--
+
+- The statistic depends on a likelihood ratio $f_0(X_i)/f(X_i)$.
+
+--
+
+  - (Isn't it just an empirical likelihood test...)
+
+--
+
+- Yes, with a random threshold step that makes a big difference:
+
+--
+
+  - Likelihood ratio and empirical likelihood tests asymptotic behavior is governed by the Kullback–Leibler divergence.
+  
+--
+
+  - The AR statistic on the other hand is connected to *total variation distance*.
 
 ---
 
 # Distribution of the test statistic
 
-- The population distribution is multivariate uniform distribution, independent variables, $p = 10$.
+--
 
 - Approximate the distribution of the test statistic by running the AR algorithm multiple times and compare it with the PoissonBinomial distribution.
+
+--
+
+- The population distribution is multivariate uniform distribution, independent variables, $p = 10$.
+
+--
 
 - The black vertical line illustrates the 1 - TVD between multivariate normal and multivariate uniform distribution, approximated using Monte Carlo integration.
 
@@ -287,9 +343,16 @@ for(n in N){
 
 # Total variation distance
 
-The total variation distance (TVD) between $f(x)$ and $f_0(x)$ is defined as 
+The total variation distance (TVD) between $f(x)$ and $f_0(x)$ is half the $L_1$-distance between densities or mass functions.
+
+--
 
 $$\|f(x) - f_0(x)\|_{\text{TV}} = \frac{1}{2}\int_{\mathcal{X}}|f(x) - f_0(x)|\, dx.$$
+
+TVD measures similarity between the true density $f$ and the hypothesized density $f_0$.
+
+--
+
 Then, as $n \to \infty$,
 
 $$\rho(\textbf{X}) \xrightarrow{P} 1 - \|f(x) - f_0(x)\|_{\text{TV}},$$
@@ -417,6 +480,8 @@ energy::mvnorm.test(x, R = 500)
 
 Chen, H & Xia, Y. (2023). A Normality Test for High-dimensional Data Based on the Nearest Neighbor Approach, Journal of the American Statistical Association,
 118, 719-731, https://doi.org/10.1080/01621459.2021.1953507
+
+Györfi, L., & Van Der Meulen, E. C. (1991). A consistent goodness of fit test based on the total variation distance. In Nonparametric Functional Estimation and Related Topics (pp. 631-645). Dordrecht: Springer Netherlands.
 
 Kuismin, M. (2025). Using the rejection sampling for finding tests. arXiv preprint arXiv:2509.10325.
 

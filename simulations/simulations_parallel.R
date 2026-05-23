@@ -1,6 +1,9 @@
+
 # Test that do samples come from multivariate
 # normal dist.
 
+library(foreach)
+library(doParallel)
 library(energy)
 library(mvnormalTest)
 library(mvtnorm)
@@ -41,9 +44,9 @@ n = 50
 
 # Power when alternative is multivariate t, logis and normal 
 
-alt_dist = "mvt" # mvt, norm, mvlogis, mvburr, mvunif
+alt_dist = "norm" # mvt, norm, mvlogis, mvburr, mvunif
 
-p = 40 # 40, 50, 70
+p = 70 # 40, 50, 70
 
 df = 5
 
@@ -63,7 +66,12 @@ mu = rep(0, p)
 
 rhos = rhos_null = matrix(0, n, M)
 
-for(j in 1:M){
+num_cores <- detectCores() - 2
+cl <- makeCluster(num_cores)
+registerDoParallel(cl)
+
+
+res <- foreach(sim = 1:M, .combine = rbind) %dopar% {
   
   if(alt_dist == "mvlogis"){
     
@@ -102,22 +110,28 @@ for(j in 1:M){
   
   rho_res = ar_dist(x)
   
-  ar_stat[j] = rho_res$rho
+  energy_stat = energy::mvnorm.test(x,
+                                    R = 2)$statistic
   
-  rhos[, j] = rho_res$rhos
-  
-  energy_stat[j] = energy::mvnorm.test(x,
-                                       R = 2)$statistic
-  
-  if(p < n) Tn_stat[j] = as.numeric(mvnormalTest::mvnTest(x, B = 10)$mv.test["p-value"])
+  if(p < n) Tn_stat = as.numeric(mvnormalTest::mvnTest(x, B = 10)$mv.test["p-value"])
   
   temp = getp(x, L=L, BB=BB)
   
-  NEW_pvalue[j,] = temp$Yp
-  
-  cat("\r", j)
+  data.frame(
+    ar_stat = rho_res$rho,
+    NEW_pvalue = temp$Yp[1],
+    energy_stat = energy_stat,
+    Tn_stat = Tn_stat
+  )
   
 }
+
+stopCluster(cl)
+
+ar_stat = res$ar_stat
+energy_stat = res$energy_stat
+Tn_stat = res$Tn_stat
+NEW_pvalue = res$NEW_pvalue
 
 # Under null
 
@@ -154,7 +168,7 @@ beta_Tn = mean(Tn_stat < 0.05)
 qar = quantile(ar_stat_null, 0.05)
 beta_ar = mean(ar_stat < qar)
 
-beta_NEW = mean(NEW_pvalue[, 1] < 0.05)
+beta_NEW = mean(NEW_pvalue < 0.05)
 
 b = c(round(beta_ar, 2),
       round(beta_NEW, 2),
@@ -188,12 +202,6 @@ D1 = data.frame(method = names(b),
                 dist = alt_dist,
                 n = n,
                 p = p)
-
-D2 = data.frame(rhos = c(rhos),
-                rhos_null = c(rhos_null),
-                n = n,
-                p = p,
-                sim = rep(1:M, each = n))
 
 fpath1 = "simulations/results/demo_res.txt"
 

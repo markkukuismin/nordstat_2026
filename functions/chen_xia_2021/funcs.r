@@ -56,44 +56,44 @@ gen = function(d=20,m=100,distr="normal",choice="Sig1",chisq.df=10){
   
   mu = rep(0,d)
   if (distr=="normal"){
-    X = rmvnorm(m, mu, S1)
+    X = mvtnorm::rmvnorm(m, mu, S1)
   }else if (distr=="t05"){
-      X = rmvt(m, S1, df=0.5*d)
+      X = mvtnorm::rmvt(m, S1, df=0.5*d)
   }else if (distr=="t025"){
-      X = rmvt(m, S1, df=0.25*d)
+      X = mvtnorm::rmvt(m, S1, df=0.25*d)
   }else if (distr=="t2"){
-      X = rmvt(m, S1, df=2*d)
+      X = mvtnorm::rmvt(m, S1, df=2*d)
   }else if (distr=="t4"){
-      X = rmvt(m, S1, df=4*d)
+      X = mvtnorm::rmvt(m, S1, df=4*d)
   }else if (distr=="mixture"){
     ss1 = 1-1.8/sqrt(d)
     ss2 = 1+1.8/sqrt(d)
-    X = rbind(rmvnorm(m/2,rep(0,d),ss1*diag(1,d)), rmvnorm(m/2,rep(0,d),ss2*diag(1,d)))%*%SS
+    X = rbind(mvtnorm::rmvnorm(m/2,rep(0,d),ss1*diag(1,d)), mvtnorm::rmvnorm(m/2,rep(0,d),ss2*diag(1,d)))%*%SS
   }else if (distr=="partial_normal_01"){
-  	X = rmvnorm(m, mu, S1)
+  	X = mvtnorm::rmvnorm(m, mu, S1)
   	prop = 0.1*d
   	I1 = diag(1,prop)
-  	X[,1:prop] = rmvt(m, I1, df=d/4)
+  	X[,1:prop] = mvtnorm::rmvt(m, I1, df=d/4)
   }else if (distr=="partial_normal_02"){
-  	X = rmvnorm(m, mu, S1)
+  	X = mvtnorm::rmvnorm(m, mu, S1)
   	prop = 0.2*d
   	I1 = diag(1,prop)
-  	X[,1:prop] = rmvt(m, I1, df=d/4)
+  	X[,1:prop] = mvtnorm::rmvt(m, I1, df=d/4)
   }else if (distr=="partial_normal_03"){
-  	X = rmvnorm(m, mu, S1)
+  	X = mvtnorm::rmvnorm(m, mu, S1)
   	prop = 0.3*d
   	I1 = diag(1,prop)
-  	X[,1:prop] = rmvt(m, I1, df=d/4)
+  	X[,1:prop] = mvtnorm::rmvt(m, I1, df=d/4)
   }else if (distr=="partial_normal_04"){
-  	X = rmvnorm(m, mu, S1)
+  	X = mvtnorm::rmvnorm(m, mu, S1)
   	prop = 0.4*d
   	I1 = diag(1,prop)
-  	X[,1:prop] = rmvt(m, I1, df=d/4)
+  	X[,1:prop] = mvtnorm::rmvt(m, I1, df=d/4)
   }else if (distr=="partial_normal_05"){
-  	X = rmvnorm(m, mu, S1)
+  	X = mvtnorm::rmvnorm(m, mu, S1)
   	prop = 0.5*d
   	I1 = diag(1,prop)
-  	X[,1:prop] = rmvt(m, I1, df=d/4)
+  	X[,1:prop] = mvtnorm::rmvt(m, I1, df=d/4)
   }else if (distr=="chisquare3"){
     chisq.df=3
     X0 = matrix(rchisq(m*d,chisq.df),m)-chisq.df
@@ -142,7 +142,7 @@ get.XYstat = function(distM){
   
   R = c(XX-mu.XX, YY-mu.XX)
   SXY1 = sum(abs(R))
-  SXY2 = R%*%ginv(Sigma)%*%R
+  SXY2 = R%*%MASS::ginv(Sigma)%*%R
   
   return(list(XX=XX, YY=YY, SXY1=SXY1, SXY2=SXY2))
 }
@@ -202,7 +202,7 @@ getp = function(X, L, BB, kk=5, CX.generate=FALSE){
   
   ratio0v = Xratio0v = SXY1_0v = SXY2_0v = ori0v = S0v = rep(0,L)
   for (l in 1:L){
-    Y = rmvnorm(m, Xbar, Xcov)
+    Y = mvtnorm::rmvnorm(m, Xbar, Xcov)
     XY = rbind(X,Y)
     mydist = getdis(XY)
     
@@ -218,9 +218,9 @@ getp = function(X, L, BB, kk=5, CX.generate=FALSE){
     #ratio0 = length(which(nn[(m+1):(m*2)]>m))/m
     #Xratio0 = length(which(nn[1:m]<=m))/m
     
-    E = mstree(as.dist(mydist))
+    E = ade4::mstree(as.dist(mydist))
     ori0v[l] = getR(E,1:m)
-    temp = g.tests(E,1:m,(m+1):(2*m),"g")
+    temp = gTests::g.tests(E,1:m,(m+1):(2*m),"g")
     S0v[l] = temp$generalized$test.statistic
   }
   
@@ -241,7 +241,7 @@ getp = function(X, L, BB, kk=5, CX.generate=FALSE){
   }
   
   for (j in 1:BB){
-    YY = rmvnorm(m, Xbar, Xcov)
+    YY = mvtnorm::rmvnorm(m, Xbar, Xcov)
     YYbar = apply(YY,2,mean)
     yycov = cov(YY)
     
@@ -266,7 +266,7 @@ getp = function(X, L, BB, kk=5, CX.generate=FALSE){
     
     for (l in 1:L){
       
-      Z = rmvnorm(m,YYbar,YYcov)
+      Z = mvtnorm::rmvnorm(m,YYbar,YYcov)
       YZ = rbind(YY,Z)
       mydist.YZ = getdis(YZ)
       mydist2.YZ = mydist.YZ
@@ -277,9 +277,9 @@ getp = function(X, L, BB, kk=5, CX.generate=FALSE){
       SXY1[j,l] = temp$SXY1
       SXY2[j,l] = temp$SXY2
       
-      E = mstree(as.dist(mydist.YZ))
+      E = ade4::mstree(as.dist(mydist.YZ))
       ori[j,l] = getR(E,1:m)
-      temp = g.tests(E,1:m,(m+1):(2*m),"g")
+      temp = gTests::g.tests(E,1:m,(m+1):(2*m),"g")
       S[j,l] = temp$generalized$test.statistic
       
     }
