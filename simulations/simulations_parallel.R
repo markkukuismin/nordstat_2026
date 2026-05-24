@@ -44,7 +44,7 @@ n = 50
 
 # Power when alternative is multivariate t, logis and normal 
 
-alt_dist = "norm" # mvt, norm, mvlogis, mvburr, mvunif
+alt_dist = "mvunif" # mvt, norm, mvlogis, mvburr, mvunif
 
 p = 70 # 40, 50, 70
 
@@ -97,7 +97,7 @@ res <- foreach(sim = 1:M, .combine = rbind) %dopar% {
     
     x = NonNorMvtDist::rmvburr(n = n, 
                                parm1 = 1,
-                               par2 = rep(1, p),
+                               parm2 = rep(1, p),
                                parm3 = rep(1, p))
     
   }

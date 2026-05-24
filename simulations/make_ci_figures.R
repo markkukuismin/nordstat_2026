@@ -24,7 +24,7 @@ set.seed(1234)
 
 ddist = "Multivariate logistic" # Multivariate logistic, uniform, normal, t
 
-p = 500
+p = 20
 sample_sizes = c(10, 20, 40, 60, 100)
 
 ar_stat = rep(0, length(sample_sizes))
@@ -96,7 +96,7 @@ df = data.frame(rho = ar_stat,
                 x = 1:length(sample_sizes))
 
 pl = ggplot(df, aes(x = rho, y = x)) +
-  geom_point(size = 4) +
+  geom_point(size = 1.5) +
   geom_errorbar(aes(xmax = U, xmin = L), width = 0.2, linewidth = 1) +
   xlim(c(0, 1)) +
   geom_vline(xintercept = 1, linetype = 2, linewidth = 1.5) +

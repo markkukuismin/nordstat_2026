@@ -225,7 +225,7 @@ It is a global measure of distributional agreement
 
 --
 
-- Yes, with a random threshold step that makes a big difference:
+- Yes, but the random threshold step that makes a big difference:
 
 --
 
@@ -237,21 +237,45 @@ It is a global measure of distributional agreement
 
 ---
 
+class: center, middle
+
+# Distribution of the test statistic
+
+---
+
 # Distribution of the test statistic
 
 --
 
-- Approximate the distribution of the test statistic by running the AR algorithm multiple times and compare it with the PoissonBinomial distribution.
+- The observed test statistic follows Poisson-Binomial distribution (see Kuismin, 2026 for more details).
 
 --
 
-- The population distribution is multivariate uniform distribution, independent variables, $p = 10$.
+- Compare the distribution of the test statistic when it is computed: 
 
 --
 
-- The black vertical line illustrates the 1 - TVD between multivariate normal and multivariate uniform distribution, approximated using Monte Carlo integration.
+  1. By running the AR algorithm multiple times.
+  
+--
+  
+  2. Using Poisson-Binomial distribution.
 
-```{r message=FALSE, warning=FALSE, echo = FALSE, out.width='100%', fig.height=3}
+---
+
+# Distribution of the test statistic
+
+--
+
+- Example when the population distribution is mvuniform, $p = 10$.
+
+--
+
+- The black vertical line is 1 - TVD between mvnormal and mvuniform densities, approximated using Monte Carlo integration.
+
+--
+
+```{r message=FALSE, warning=FALSE, echo = FALSE, out.width='100%', fig.height=4}
 set.seed(1)
 
 source("functions/compute_multivariate_tvd.R")
@@ -364,41 +388,42 @@ where $f$ is the true density (population density) and $f_0$ is the hypothesized
 
 # Total variation distance
 
-## TVD - multivariate logistic
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("tvd_mvlogistic_p5.png")
+ grid.raster(img)
+```
 
 --
 
-![](tvd_mvlogistic_p5.png)
-
---
-
-- Multivariate logistic distribution, $p=5$, location vector $\mathbf{0}$, and variance matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
+- Population dist. is mv. logistic, $p=5$, location vector $\mathbf{0}$, and variance matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
 
 ---
 
 # Total variation distance
 
-## TVD - multivariate t
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("tvd_mvt_p5.png")
+ grid.raster(img)
+```
 
---
-
-![](tvd_mvt_p5.png)
-
---
-
-- Multivariate t distribution, $p=5$, location vector $\mathbf{0}$, and variance/scale matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
+- Population dist. is multivariate t, $p=5$, location vector $\mathbf{0}$, and variance/scale matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
 
 ---
 
-## TVD - multivariate normal
+# Total variation distance
 
---
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("tvd_mvnormal_p5.png")
+ grid.raster(img)
+```
 
-![](tvd_mvnormal_p5.png)
-
---
-
-- Multivariate normal distribution, $p=5$, location vector $\mathbf{0}$, and variance matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
+- Population dist. is multivariate normal, $p=5$, location vector $\mathbf{0}$, and variance matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
 
 ---
 
@@ -447,45 +472,190 @@ energy::mvnorm.test(x, R = 500)
 
 ---
 
+class: center, middle
+
 # Going beyond the limit
 
-![](simulations/figures/p20_Multivariate logistic.png)
+## Interval estimates
 
 ---
 
-## TVD examples - multivariate logistic
+## TVD - multivariate logistic
 
---
+- When there are "enough" samples and the population distribution is not too "challenging", the test works reasonably well.
 
-![](tvd_mvlogistic_p50.png)
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("tvd_mvlogistic_p20.png")
+ grid.raster(img)
+```
+
 ---
 
-## TVD - multivariate t
+## Interval estimates - multivariate logistic
 
---
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("simulations/figures/p20_Multivariate logistic.png")
+ grid.raster(img)
+```
 
-![](tvd_mvt_p50.png)
+---
+
+## TVD - multivariate logistic
+
+- When $p \gg n$, interpretation of point and interval estimates becomes weaker/unreliable.
+
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("tvd_mvlogistic_p100.png")
+ grid.raster(img)
+```
+
+---
+
+## Interval estimates - multivariate logistic
+
+- However, the test statistic still seems to be able to distinguish the population distribution from the population distribution. 
+
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("simulations/figures/p100_Multivariate logistic.png")
+ grid.raster(img)
+```
 
 ---
 
 ## TVD - multivariate normal
 
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("tvd_mvnormal_p100.png")
+ grid.raster(img)
+```
+
+---
+
+## Interval estimates - multivariate normal
+
+```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
+library(png)
+library(grid)
+img <- readPNG("simulations/figures/p100_Multivariate normal.png")
+ grid.raster(img)
+```
+
+---
+
+class: center, middle
+
+# Going beyond the limit
+
+## Power simulations
+
+---
+
+## Power simulations
+
 --
 
-![](tvd_mvnormal_p50.png)
+- We want to test,
+
+$$H_0:
+\mathbf{X}_1, \ldots, \mathbf{X}_n
+\overset{\mathrm{i.i.d.}}{\sim}
+N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right).$$
+
+--
+
+- Consider five different multivariate population distributions:
+
+  - Multivariate t, $MVT(\mathbf{0}, \mathbf{I}, 5)$.
+  - Multivariate normal, $MVN(\mathbf{0}, \mathbf{I})$.
+  - Multivariate logistic, $MVLOGIS(\mathbf{0}, \mathbf{1})$.
+  - Multivariate Burr, $MVBURR(1, \mathbf{1}, \mathbf{1})$.
+  - Multivariate uniform, $MVUNIF(1)$.
+
+--
+
+- $n = 50$, $p \in \{40, 50, 70\}$.
+
+--
+
+- Estimate the power using $p-$values and Monte Carlo simulations.
+
+---
+
+## Power simulations
+
+--
+
+- Compare the AR test with three other tests for multivariate normality:
+
+--
+
+  - Energy test (Székely & Rizzo, 2005).
+  - NEW test (Chen & Xia, 2023).
+  - Zhou-Shao's test ("Tn test") (Zhou & Shao, 2014). 
+
+--
+
+- Power evaluation: estimate how often the test rejects $H_0$ under different alternatives at a pre-specified Type I error rate $\alpha = 0.05$.
+
+---
+
+## Power simulations
+
+```{r echo = FALSE}
+D = read.table("simulations/results/demo_res.txt", header = TRUE)
+D = D[-seq(5, 70, by = 5), ]
+colnames(D) = c("Method", "est. Power", "Distribution", "n", "p")
+```
+
+```{r echo=FALSE, tidy=FALSE}
+DT::datatable(
+  head(D, 60),
+  fillContainer = FALSE, options = list(pageLength = 4)
+)
+```
+
+---
+
+class: center, middle
+
+# Future challenges 
+
+---
+
+# Future challenges 
+
+--
+
+- What is the sampling distribution of the statistic under null...
+
+--
+
+- Use the framework to examine if the population distribution is a composition of two power-laws...
 
 ---
 
 # References
 
-Chen, H & Xia, Y. (2023). A Normality Test for High-dimensional Data Based on the Nearest Neighbor Approach, Journal of the American Statistical Association,
+Chen, H. & Xia, Y. (2023). A Normality Test for High-dimensional Data Based on the Nearest Neighbor Approach, Journal of the American Statistical Association,
 118, 719-731, https://doi.org/10.1080/01621459.2021.1953507
 
-Györfi, L., & Van Der Meulen, E. C. (1991). A consistent goodness of fit test based on the total variation distance. In Nonparametric Functional Estimation and Related Topics (pp. 631-645). Dordrecht: Springer Netherlands.
+Györfi, L. & Van Der Meulen, E. C. (1991). A consistent goodness of fit test based on the total variation distance. In Nonparametric Functional Estimation and Related Topics (pp. 631-645). Dordrecht: Springer Netherlands.
 
 Kuismin, M. (2025). Using the rejection sampling for finding tests. arXiv preprint arXiv:2509.10325.
 
 Székely, G. J. & Rizzo, M. L. (2005). A new test for multivariate normality. Journal of Multivariate Analysis 93, 58-80, https://doi.org/10.1016/j.jmva.2003.12.002
+
+Zhou, M. & Shao, Y. (2014). A powerful test for multivariate normality. Journal of applied statistics, 41, 351-363, https://doi.org/10.1080/02664763.2013.839637
 
 ---
 
