@@ -1,0 +1,371 @@
+---
+title: "Pushing the AR test beyond the limit"
+subtitle: "Statlog heart disease example"
+author: "Markku Kuismin"
+institute: "University of Oulu, Northern Finland Birth Cohorts"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    chakra: libs/remark-latest.min.js
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+---
+
+class: center, middle
+
+# A Statlog heart disease example
+
+---
+
+# A Statlog heart disease example
+
+```{r xaringan-fit-screen, echo=FALSE}
+xaringanExtra::use_fit_screen()
+```
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(tidyverse)
+
+source("functions/read.libsvm.R")
+source("functions/ar_dist.R")
+
+set.seed(1)
+
+data_raw = read.libsvm("data/heart.txt",
+                       dimensionality = 13)
+```
+
+```{r echo=FALSE}
+y = data_raw[, 1]
+X = data_raw[, -1]
+colnames(X) <- c(
+  "age",
+  "sex",
+  "cp",
+  "trestbps",
+  "chol",
+  "fbs",
+  "restecg",
+  "thalach",
+  "exang",
+  "oldpeak",
+  "slope",
+  "ca",
+  "thal"
+)
+Y = scale(X)
+```
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+d = ar_dist(x = Y, sim_dist = TRUE)
+
+p = table(d$rho_sim)
+
+dd = as.numeric(names(p))
+dd = round(dd, 3)
+
+df = data.frame(Prob = as.vector(p)/sum(as.vector(p)),
+                rho = as.factor(dd))
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(df) + 
+  geom_bar(aes(x = rho, y = Prob), stat="identity") + 
+  geom_vline(
+    xintercept = 1, 
+    linewidth = 1,
+    linetype = 2) +
+  theme(
+    axis.text.x = element_text(angle = 45)
+  )
+```
+
+---
+# A Statlog heart disease example
+
+```{r}
+d$rho
+energy::mvnorm.test(Y, R = 1000)
+```
+
+---
+# A Statlog heart disease example
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+Y = X[, c(1, 4, 5, 8, 10)]
+Y = scale(Y)
+
+d = ar_dist(x = Y, sim_dist = TRUE)
+
+p = table(d$rho_sim)
+
+dd = as.numeric(names(p))
+idx = which.min(abs(dd - d$rho)) + 1
+dd = round(dd, 3)
+
+df = data.frame(Prob = as.vector(p)/sum(as.vector(p)),
+                rho = as.factor(dd))
+
+ggplot(df) + 
+  geom_bar(aes(x = rho, y = Prob), stat="identity") + 
+  geom_vline(
+    xintercept = idx, 
+    linewidth = 1,
+    linetype = 2,
+    color = "red") +
+  theme(
+    axis.text.x = element_text(angle = 45)
+  )
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+d$rho
+energy::mvnorm.test(Y, R = 1000)
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+plot(as.data.frame(Y))
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+Y = X[, c(1, 4, 5, 8)]
+Y = scale(Y)
+
+d = ar_dist(x = Y, sim_dist = TRUE)
+
+p = table(d$rho_sim)
+
+dd = as.numeric(names(p))
+idx = which.min(abs(dd - d$rho)) + 1
+dd = round(dd, 3)
+
+df = data.frame(Prob = as.vector(p)/sum(as.vector(p)),
+                rho = as.factor(dd))
+
+ggplot(df) + 
+  geom_bar(aes(x = rho, y = Prob), stat="identity") + 
+  geom_vline(
+    xintercept = idx, 
+    linewidth = 1,
+    linetype = 2) +
+  theme(
+    axis.text.x = element_text(angle = 45)
+  )
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+d$rho
+energy::mvnorm.test(Y, R = 1000)
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+Y = huge::huge.npn(Y)
+#hist(Y[, "age"])
+
+d = ar_dist(x = Y, sim_dist = TRUE)
+
+p = table(d$rho_sim)
+
+dd = as.numeric(names(p))
+idx = which.min(abs(dd - d$rho)) + 1
+dd = round(dd, 3)
+
+df = data.frame(Prob = as.vector(p)/sum(as.vector(p)),
+                rho = as.factor(dd))
+
+ggplot(df) + 
+  geom_bar(aes(x = rho, y = Prob), stat="identity") + 
+  geom_vline(
+    xintercept = idx, 
+    linewidth = 1,
+    linetype = 2,
+    color = "red") +
+  theme(
+    axis.text.x = element_text(angle = 45)
+  )
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+d$rho  
+energy::mvnorm.test(Y, R = 1000)
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+library(huge)
+
+res = huge(x = Y, 
+           nlambda = 100,
+           method = "glasso",
+           verbose = FALSE)
+
+res_sel = huge.select(res, 
+                      criterion = "ric",
+                      verbose = FALSE)
+
+R = -cov2cor(res_sel$opt.icov)
+colnames(R) = rownames(R) = colnames(Y)
+
+round(R, 3)
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+A = res_sel$opt.icov
+A[A != 0] = 1
+diag(A) = 0
+colnames(A) = colnames(Y)
+rownames(A) = colnames(Y)
+
+G = igraph::graph_from_adjacency_matrix(A,
+                                        mode = "undirected")
+
+plot(G)
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+M = 10^3
+
+rho_null = rep(0, M)
+
+n = nrow(Y)
+
+mu = rep(0, ncol(Y))
+
+for(i in 1:M){
+  
+  XX = mvtnorm::rmvnorm(n = n, mean = mu)
+  
+  rho_null[i] = ar_dist(x = XX)$rho
+  
+}
+
+(sum(rho_null <= d$rho) + 1)/(M + 1)
+
+hist(rho_null, probability = TRUE)
+abline(v = d$rho, lty = 2, lwd = 2)
+```
+
+---
+# A Statlog heart disease example
+
+```{r echo=FALSE, warning=FALSE, message=FALSE}
+f = function(x) ar_dist(x)$rho
+
+p = ncol(Y)
+
+bootobj <- boot::boot(Y, 
+                      statistic = f, 
+                      R = M, 
+                      sim = "parametric", 
+                      ran.gen = function(x, y){
+                        return(matrix(rnorm(n*p), 
+                                      nrow = n, ncol = p))
+                      })
+
+mean(bootobj$t < bootobj$t0)
+```
+
+---
+
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+data_long = as.data.frame(Y) %>% 
+  pivot_longer(colnames(Y)) %>% 
+  as.data.frame()
+
+ggp <- ggplot(data_long, aes(x = value)) +
+  geom_histogram(aes(y = after_stat(density))) + 
+  geom_density(col = "#1b98e0", linewidth = 2) + 
+  facet_wrap(~ name, scales = "free")
+ggp
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+sc = ifelse(y == 1, "red", "blue")
+
+plot(as.data.frame(Y),
+     col = sc,
+     pch = 16)
+```
+
+trestbps: Patient's level of blood pressure at resting mode in mm/HG
+
+Many repeated values -> Evidence against H0
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+Y = X[, c("age", "chol", "thalach")]
+Y = huge::huge.npn(Y)
+
+d = ar_dist(Y)
+
+d$rho
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+bootobj <- boot::boot(Y, 
+                      statistic = f, 
+                      R = M, 
+                      sim = "parametric", 
+                      ran.gen = function(x, y){
+                        return(matrix(rnorm(n*p), 
+                                      nrow = n, ncol = p))
+                      })
+
+mean(bootobj$t < bootobj$t0)
+(sum(rho_null < d$rho) + 1)/(M + 1)
+energy::mvnorm.test(Y, R = M)
+```
+
+---
+# A Statlog heart disease example
+
+```{r eval=TRUE, message=FALSE, warning=FALSE}
+plot(as.data.frame(Y), 
+     col = sc,
+     pch = 16)
+```
+
