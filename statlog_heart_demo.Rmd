@@ -12,7 +12,12 @@ output:
       highlightLines: true
       countIncrementalSlides: false
 ---
-
+```{css, echo = FALSE}
+/* Define your custom class and font size here */
+.small-font-slide {
+  font-size: 90%;
+}
+```
 ---
 
 class: center, middle
@@ -20,7 +25,7 @@ class: center, middle
 # A Statlog heart disease example
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
 - The heart data exhibit features inconsistent with a smooth multivariate Gaussian model, for example:
 
@@ -33,13 +38,14 @@ class: center, middle
 - The departure from normality is subtle and localized rather than a large-scale geometric discrepancy.
 
 ---
-# A Statlog heart disease example
+class: small-font-slide
+## A Statlog heart disease example
 
 ```{r xaringan-fit-screen, echo=FALSE}
 xaringanExtra::use_fit_screen()
 ```
 
-```{r eval=TRUE, message=FALSE, warning=FALSE}
+```{r eval=TRUE, message=FALSE, warning=FALSE, echo=FALSE}
 library(ggplot2)
 library(tidyverse)
 
@@ -47,10 +53,30 @@ source("functions/read.libsvm.R")
 source("functions/ar_dist.R")
 
 set.seed(1)
+```
 
+```{r}
 data_raw = read.libsvm("data/heart.txt",
                        dimensionality = 13)
 ```
+
+
+1. Age: Patients Age in years (Numeric)
+2. Sex: Gender (Male : 1; Female : 0) (Nominal)
+3. cp: Type of chest pain experienced by patient. This term categorized into 4 category (0 typical angina, 1 atypical angina, 2 non- anginal pain, 3 asymptomatic (Nominal))
+4. trestbps: patient's level of blood pressure at resting mode in mm/HG (Numerical)
+5. chol: Serum cholesterol in mg/dl (Numeric)
+6. fbs: Blood sugar levels on fasting > 120 mg/dl represents as 1 in case of true and 0 as false (Nominal)
+7. restecg: Result of electrocardiogram while at rest are represented in 3 distinct values
+(0 : Normal 1: having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of >
+0.05 mV) 2: showing probable or definite left ventricular hypertrophyby Estes' criteria (Nominal))
+8. thalach: Maximum heart rate achieved (Numeric)
+9. exang: Angina induced by exercise 0 depicting NO 1 depicting Yes (Nominal)
+10. oldpeak: Exercise induced ST-depression in relative with the state of rest (Numeric)
+11. slope: ST segment measured in terms of slope during peak exercise (0: up sloping; 1: flat; 2: down sloping(Nominal)
+12. ca: The number of major vessels (0–3)(nominal))
+13. thal: A blood disorder called thalassemia (0: NULL 1: normal blood flow 2: fixed defect (no blood flow in some part of the heart) 3: reversible defect (a blood flow is observed but it is not normal(nominal))
+14. target: It is the target variable which we have to predict 1 means patient is suffering from heart disease and 0 means patient is normal.
 
 ```{r echo=FALSE}
 y = data_raw[, 1]
@@ -86,7 +112,9 @@ df = data.frame(Prob = as.vector(p)/sum(as.vector(p)),
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
+
+- First, examine the whole data that includes several nominal features.
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE, echo=FALSE}
 ggplot(df) + 
@@ -101,15 +129,26 @@ ggplot(df) +
 ```
 
 ---
-# A Statlog heart disease example
+class: small-font-slide
+## A Statlog heart disease example
+
+- AR test statistic and interval estimates,
 
 ```{r}
 d$rho
+HDInterval::hdi(d$rho_sim)
+```
+
+- Energy test,
+
+```{r}
 energy::mvnorm.test(Y, R = 1000)
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
+
+- Pick only continuous variables: age, resting blood pressure, cholesterol, maximum heart rate, oldpeak (ST depression).
 
 ```{r echo=FALSE, warning=FALSE, message=FALSE}
 Y = X[, c(1, 4, 5, 8, 10)]
@@ -126,7 +165,7 @@ dd = round(dd, 3)
 df = data.frame(Prob = as.vector(p)/sum(as.vector(p)),
                 rho = as.factor(dd))
 
-ggplot(df) + 
+gp = ggplot(df) + 
   geom_bar(aes(x = rho, y = Prob), stat="identity") + 
   geom_vline(
     xintercept = idx, 
@@ -136,27 +175,35 @@ ggplot(df) +
   theme(
     axis.text.x = element_text(angle = 45)
   )
+#gp
 ```
 
 ---
-# A Statlog heart disease example
+class: small-font-slide
+## A Statlog heart disease example
 
 ```{r eval=TRUE, message=FALSE, warning=FALSE}
 d$rho
+HDInterval::hdi(d$rho_sim)
+```
+
+```{r}
 energy::mvnorm.test(Y, R = 1000)
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
-```{r eval=TRUE, message=FALSE, warning=FALSE}
+- The variable 'oldpeak' is right skewed. First, remove it from the analysis,
+
+```{r eval=TRUE, message=FALSE, warning=FALSE, fig.height=5.5}
 plot(as.data.frame(Y))
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
-```{r eval=TRUE, message=FALSE, warning=FALSE}
+```{r eval=TRUE, message=FALSE, warning=FALSE, echo =  FALSE}
 Y = X[, c(1, 4, 5, 8)]
 Y = scale(Y)
 
@@ -171,7 +218,7 @@ dd = round(dd, 3)
 df = data.frame(Prob = as.vector(p)/sum(as.vector(p)),
                 rho = as.factor(dd))
 
-ggplot(df) + 
+gp = ggplot(df) + 
   geom_bar(aes(x = rho, y = Prob), stat="identity") + 
   geom_vline(
     xintercept = idx, 
@@ -180,22 +227,28 @@ ggplot(df) +
   theme(
     axis.text.x = element_text(angle = 45)
   )
+#gp
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
 ```{r eval=TRUE, message=FALSE, warning=FALSE}
 d$rho
+HDInterval::hdi(d$rho_sim)
+```
+
+```{r}
 energy::mvnorm.test(Y, R = 1000)
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
-```{r eval=TRUE, message=FALSE, warning=FALSE}
-Y = huge::huge.npn(Y)
-#hist(Y[, "age"])
+- Use nonparanormal transformation to make the marginal distributions approximately standard normal,
+
+```{r eval=TRUE, message=FALSE, warning=FALSE, echo=FALSE}
+Y = huge::huge.npn(Y, verbose = FALSE)
 
 d = ar_dist(x = Y, sim_dist = TRUE)
 
@@ -208,7 +261,7 @@ dd = round(dd, 3)
 df = data.frame(Prob = as.vector(p)/sum(as.vector(p)),
                 rho = as.factor(dd))
 
-ggplot(df) + 
+gp = ggplot(df) + 
   geom_bar(aes(x = rho, y = Prob), stat="identity") + 
   geom_vline(
     xintercept = idx, 
@@ -218,20 +271,27 @@ ggplot(df) +
   theme(
     axis.text.x = element_text(angle = 45)
   )
+#gp
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
 ```{r eval=TRUE, message=FALSE, warning=FALSE}
 d$rho  
+HDInterval::hdi(d$rho_sim)
+```
+
+```{r}
 energy::mvnorm.test(Y, R = 1000)
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
-```{r eval=TRUE, message=FALSE, warning=FALSE}
+- The resulting partial correlation matrix is
+
+```{r eval=TRUE, message=FALSE, warning=FALSE, echo=FALSE}
 library(huge)
 
 res = huge(x = Y, 
@@ -250,9 +310,9 @@ round(R, 3)
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
-```{r eval=TRUE, message=FALSE, warning=FALSE}
+```{r eval=TRUE, message=FALSE, warning=FALSE, echo=FALSE}
 A = res_sel$opt.icov
 A[A != 0] = 1
 diag(A) = 0
@@ -261,12 +321,18 @@ rownames(A) = colnames(Y)
 
 G = igraph::graph_from_adjacency_matrix(A,
                                         mode = "undirected")
+```
 
+- The GGM estimated with Glasso is
+
+```{r}
 plot(G)
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
+
+- The p-value of the AR test can be computed, e.g., using MC-testing,
 
 ```{r eval=TRUE, message=FALSE, warning=FALSE}
 M = 10^3
@@ -286,15 +352,17 @@ for(i in 1:M){
 }
 
 (sum(rho_null <= d$rho) + 1)/(M + 1)
+```
 
+```{r eval=FALSE, echo=FALSE}
 hist(rho_null, probability = TRUE)
 abline(v = d$rho, lty = 2, lwd = 2)
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
 
-```{r echo=FALSE, warning=FALSE, message=FALSE}
+```{r echo=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 f = function(x) ar_dist(x)$rho
 
 p = ncol(Y)
@@ -313,9 +381,9 @@ mean(bootobj$t < bootobj$t0)
 
 ---
 
-# A Statlog heart disease example
+## A Statlog heart disease example
 
-```{r eval=TRUE, message=FALSE, warning=FALSE}
+```{r eval=TRUE, message=FALSE, warning=FALSE, echo=FALSE, fig.height=5.5}
 data_long = as.data.frame(Y) %>% 
   pivot_longer(colnames(Y)) %>% 
   as.data.frame()
@@ -327,57 +395,31 @@ ggp <- ggplot(data_long, aes(x = value)) +
 ggp
 ```
 
----
-# A Statlog heart disease example
+- trestbps: Patient's level of blood pressure at resting mode in mm/HG
 
-```{r eval=TRUE, message=FALSE, warning=FALSE}
-sc = ifelse(y == 1, "red", "blue")
-
-plot(as.data.frame(Y),
-     col = sc,
-     pch = 16)
-```
-
-trestbps: Patient's level of blood pressure at resting mode in mm/HG
-
-Many repeated values -> Evidence against H0
+- Many repeated values -> Evidence against $H_0$.
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
+
+- Use only features age, chol, and thalach
 
 ```{r eval=TRUE, message=FALSE, warning=FALSE}
 Y = X[, c("age", "chol", "thalach")]
-Y = huge::huge.npn(Y)
+Y = huge::huge.npn(Y, verbose = FALSE)
 
-d = ar_dist(Y)
+d = ar_dist(Y, sim_dist = TRUE)
 
 d$rho
+HDInterval::hdi(d$rho_sim)
 ```
 
 ---
-# A Statlog heart disease example
+## A Statlog heart disease example
+
+- After this, the data seems somewhat normal.
 
 ```{r eval=TRUE, message=FALSE, warning=FALSE}
-bootobj <- boot::boot(Y, 
-                      statistic = f, 
-                      R = M, 
-                      sim = "parametric", 
-                      ran.gen = function(x, y){
-                        return(matrix(rnorm(n*p), 
-                                      nrow = n, ncol = p))
-                      })
-
-mean(bootobj$t < bootobj$t0)
 (sum(rho_null < d$rho) + 1)/(M + 1)
 energy::mvnorm.test(Y, R = M)
 ```
-
----
-# A Statlog heart disease example
-
-```{r eval=TRUE, message=FALSE, warning=FALSE}
-plot(as.data.frame(Y), 
-     col = sc,
-     pch = 16)
-```
-

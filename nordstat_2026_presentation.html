@@ -4,7 +4,7 @@
     <title>Pushing the AR test beyond the limit</title>
     <meta charset="utf-8" />
     <meta name="author" content="Markku Kuismin" />
-    <meta name="date" content="2026-05-29" />
+    <meta name="date" content="2026-05-31" />
     <script src="nordstat_2026_presentation_files/header-attrs-2.31/header-attrs.js"></script>
     <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
@@ -43,11 +43,22 @@ class: center, middle, inverse, title-slide
 ### University of Oulu, Northern Finland Birth Cohorts
 ]
 .date[
-### 2026-05-29
+### 2026-05-31
 ]
 
 ---
 
+
+&lt;style type="text/css"&gt;
+.highlight-last-item &gt; ul &gt; li, 
+.highlight-last-item &gt; ol &gt; li { 
+  opacity: 0.5; 
+}
+.highlight-last-item &gt; ul &gt; li:last-of-type, 
+.highlight-last-item &gt; ol &gt; li:last-of-type { 
+  opacity: 1; 
+}
+&lt;/style&gt;
 
 ---
 
@@ -56,13 +67,13 @@ class: center, middle
 # Very short author biography
 
 ---
+class: highlight-last-item
+## Very short author biography
 
---
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-3f2a0190277d527e891d" style="width:100%;height:360px;"></div>
+<script type="application/json" data-for="htmlwidget-3f2a0190277d527e891d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
 
 - I work as a biostatistician at the University of Oulu School of Medicine.
-
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-bb53f2bf4102edd8d732" style="width:100%;height:432px;"></div>
-<script type="application/json" data-for="htmlwidget-bb53f2bf4102edd8d732">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -79,6 +90,7 @@ class: center, middle
 # Background and motivation
 
 ---
+class: highlight-last-item
 
 # Background and motivation
 
@@ -111,7 +123,7 @@ class: center, middle
 - In general: It is difficult to analyse data meaningfully without understanding the distribution from which they arise.
 
 ---
-
+class: highlight-last-item
 # Background and motivation
 
 --
@@ -143,7 +155,7 @@ class: center, middle
 # The AR statistic
 
 ---
-
+class: highlight-last-item
 # The AR statistic
 
 --
@@ -167,7 +179,7 @@ class: center, middle
 - My objective is the complete opposite: I want that the algorithm is sensitive to a poor choice of the proposal distribution that is used to evaluate the null hypothesis.
 
 ---
-
+class: highlight-last-item
 # The AR statistic
 
 --
@@ -191,7 +203,7 @@ class: center, middle
 - Instead of generating pseudo random numbers from `\(f\)`, compute `\(\rho\)` with respect to the observed data. 
 
 ---
-
+class: highlight-last-item
 # The AR statistic
 
 --
@@ -211,12 +223,12 @@ class: center, middle
 - We will later talk a little more about total variation distance, which is the common denominator underlying both methods.
 
 ---
-
+class: highlight-last-item
 # The AR statistic
 
 --
 
-Technical challenges:
+- Technical challenges:
 
 --
 
@@ -224,7 +236,7 @@ Technical challenges:
 
 --
 
-`-&gt;` Estimate `\(f\)`, e.g., using KDE(...)
+  - Solution: Estimate `\(f\)`, e.g., using KDE(...)
 
 --
 
@@ -232,55 +244,57 @@ Technical challenges:
 
 --
 
-`-&gt;` Use `\(E_U(\rho)\)` instead.
+  - Solution: Use `\(E_U(\rho)\)` instead.
 
 --
 
 - Denote `\(\rho(\textbf{X}) = E_U(\rho) = n^{-1}\sum_{1=1}^n \min\left(1, f_0(X_i)/\widehat{f}(X_i)\right)\)`.
 
 ---
+class: highlight-last-item
 
 # The AR statistic
 
 --
 
-The statistic has a handful of attractive properties.
+- The statistic has a handful of attractive properties.
 
 --
 
-**Direct probabilistic interpretation:**
+- **Direct probabilistic interpretation:**
 
 --
 
-- The AR statistic can be interpreted as an estimated acceptance probability.
+  - The AR statistic can be interpreted as an estimated acceptance probability.
 
 --
 
-**It measures how often observations would be accepted under the hypothesized population distribution.** 
+- **It measures how often observations would be accepted under the hypothesized population distribution.** 
 
 --
 
-- Values close to 1 indicate good agreement with the hypothesized distribution.
+  - Values close to 1 indicate good agreement with the hypothesized distribution.
 
 --
 
-- Values close to 0 indicate lack of fit and evidence against the model.
+  - Values close to 0 indicate lack of fit and evidence against the model.
 
 --
 
-**Interval estimates for `\(\rho(\textbf{X})\)` can be computed using simulations or Poisson-Binomial distribution.**
+- **Interval estimates for `\(\rho(\textbf{X})\)` can be computed using simulations or Poisson-Binomial distribution.**
 
 --
 
-**It is a global measure of distributional agreement.**
+- **It is a global measure of distributional agreement.**
 
 --
 
-- It can detect differences in location, covariance, tail behavior, skewness, multimodality, and other shape features.
+  - It can detect differences in location, covariance, tail behavior, skewness, multimodality, and other shape features.
 
 --
 
 ---
+class: highlight-last-item
 
 # The AR statistic
 
@@ -305,7 +319,7 @@ The statistic has a handful of attractive properties.
   - The AR statistic on the other hand is connected to *total variation distance*.
 
 ---
-
+class: highlight-last-item
 # Total variation distance
 
 --
@@ -318,9 +332,10 @@ The total variation distance (TVD) between `\(f(x)\)` and `\(f_0(x)\)` is half t
 
 --
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
 
 ---
+class: highlight-last-item
 # Total variation distance
 
 --
@@ -337,10 +352,10 @@ where `\(f\)` is the true density (population density) and `\(f_0\)` is the hypo
 - See Kuismin (2026) for more detailed description and proof.
 
 ---
-
+class: highlight-last-item
 # Total variation distance
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
 
 --
 
@@ -351,18 +366,18 @@ where `\(f\)` is the true density (population density) and `\(f_0\)` is the hypo
 - The black horizontal line is 1 - TVD between true pop. density and mvuniform densities, approximated using Monte Carlo integration. Dashed horizontal lines illustrate the 95% interval estimates.
 
 ---
-
+class: highlight-last-item
 # Total variation distance
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
 
 - Population dist. is multivariate t, `\(p=5\)`, location vector `\(\mathbf{0}\)`, and variance/scale matrix `\(\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}\)`.
 
 ---
-
+class: highlight-last-item
 # Total variation distance
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
 
 - Population dist. is multivariate normal, `\(p=5\)`, location vector `\(\mathbf{0}\)`, and variance matrix `\(\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}\)`.
 
@@ -373,7 +388,7 @@ class: center, middle
 # Distribution of the test statistic
 
 ---
-
+class: highlight-last-item
 # Distribution of the test statistic
 
 --
@@ -393,7 +408,7 @@ class: center, middle
   2. Using Poisson-Binomial distribution.
 
 ---
-
+class: highlight-last-item
 # Distribution of the test statistic
 
 --
@@ -406,10 +421,10 @@ class: center, middle
 
 --
 
-&lt;img src="nordstat_2026_presentation_files/figure-html/unnamed-chunk-6-1.png" alt="" width="100%" /&gt;
+&lt;img src="nordstat_2026_presentation_files/figure-html/unnamed-chunk-7-1.png" alt="" width="100%" /&gt;
 
 ---
-
+class: highlight-last-item
 # Challenges 
 
 --
@@ -431,7 +446,7 @@ class: center, middle
 # Going beyond the limit
 
 ---
-
+class: highlight-last-item
 # Going beyond the limit
 
 --
@@ -475,52 +490,52 @@ class: center, middle
 ## Interval estimates
 
 ---
-
+class: highlight-last-item
 ## TVD - multivariate logistic
 
 --
 
 - When there are "enough" samples and the population distribution is not too "challenging", the test works reasonably well.
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
 
 ---
 
 ## Interval estimates - multivariate logistic
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-9-1.png)&lt;!-- --&gt;
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
 
 ---
-
+class: highlight-last-item
 ## TVD - multivariate logistic
 
 --
 
 - When `\(p \gg n\)`, interpretation of point and interval estimates becomes weaker/unreliable.
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ---
-
+class: highlight-last-item
 ## Interval estimates - multivariate logistic
 
 --
 
 - However, the test statistic still seems to be able to distinguish the population density from the hypothesized `\(N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right)\)` density. 
 
-![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
-
----
-
-## TVD - multivariate normal
-
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
 
 ---
-
-## Interval estimates - multivariate normal
+class: highlight-last-item
+## TVD - multivariate normal
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
+
+---
+class: highlight-last-item
+## Interval estimates - multivariate normal
+
+![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
 
 ---
 
@@ -531,12 +546,10 @@ class: center, middle
 ## Power simulations
 
 ---
-
+class: highlight-last-item
 ## Power simulations
 
 --
-
-- We want to test,
 
 `$$H_0:
 \mathbf{X}_1, \ldots, \mathbf{X}_n
@@ -562,7 +575,7 @@ N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right).$$`
 - Estimate the power using `\(p-\)`values and Monte Carlo simulations.
 
 ---
-
+class: highlight-last-item
 ## Power simulations
 
 --
@@ -580,13 +593,13 @@ N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right).$$`
 - Power evaluation: estimate how often the test rejects `\(H_0\)` under different alternatives at a pre-specified Type I error rate `\(\alpha = 0.05\)`.
 
 ---
-
+class: highlight-last-item
 ## Power simulations
 
 
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-6675be9f5ef14473938f" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-6675be9f5ef14473938f">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","6","7","8","9","11","12","13","14","16","17","18","19","21","22","23","24","26","27","28","29","31","32","33","34","36","37","38","39","41","42","43","44","46","47","48","49","51","52","53","54","56","57","58","59","61","62","63","64","66","67","68","69","71","72","73","74"],["AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn"],["1","0.91","0.99","0.99","1","0.94","0.05","1","1","1",null,"1","0.05","0.06","0.05","0.2","0.03","0.05","0.05","1","0.02","0.06",null,"1","1","0.09","0.24","0.49","1","0.05","0.04","1","1","0.06",null,"1","1","0.57","1","1","1","0.5","0.26","1","1","0.41",null,"1","1","0.12","0.64","0.8","1","0.05","0.05","1","1","0.01",null,"1"],["MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)"],["50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50"],["40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Method<\/th>\n      <th>est. Power<\/th>\n      <th>Distribution<\/th>\n      <th>n<\/th>\n      <th>p<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Method","targets":1},{"name":"est. Power","targets":2},{"name":"Distribution","targets":3},{"name":"n","targets":4},{"name":"p","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-52580f13f91fd8475ae4" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-52580f13f91fd8475ae4">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","6","7","8","9","11","12","13","14","16","17","18","19","21","22","23","24","26","27","28","29","31","32","33","34","36","37","38","39","41","42","43","44","46","47","48","49","51","52","53","54","56","57","58","59","61","62","63","64","66","67","68","69","71","72","73","74"],["AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn"],["1","0.91","0.99","0.99","1","0.94","0.05","1","1","1",null,"1","0.05","0.06","0.05","0.2","0.03","0.05","0.05","1","0.02","0.06",null,"1","1","0.09","0.24","0.49","1","0.05","0.04","1","1","0.06",null,"1","1","0.57","1","1","1","0.5","0.26","1","1","0.41",null,"1","1","0.12","0.64","0.8","1","0.05","0.05","1","1","0.01",null,"1"],["MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)"],["50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50"],["40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Method<\/th>\n      <th>est. Power<\/th>\n      <th>Distribution<\/th>\n      <th>n<\/th>\n      <th>p<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Method","targets":1},{"name":"est. Power","targets":2},{"name":"Distribution","targets":3},{"name":"n","targets":4},{"name":"p","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -595,7 +608,7 @@ class: center, middle
 # Future challenges 
 
 ---
-
+class: highlight-last-item
 # Future challenges 
 
 --
