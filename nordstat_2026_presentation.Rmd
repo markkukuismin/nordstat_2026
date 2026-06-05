@@ -32,14 +32,12 @@ class: center, middle
 
 ---
 
-## Very short author biography
-
 ```{r out.width='100%', fig.height=5, eval=require('leaflet'), echo=FALSE}
 library(leaflet)
 leaflet() %>%
   addTiles() %>%
   setView(25.23685, 62.58855,  zoom = 4.5) %>%
-    addMarkers(c(25.5242, 24.9495), c(65.0075, 60.1696), label = c("My workplace", "We are here"))
+    addMarkers(c(25.5242, 24.9495), c(65.0075, 60.1696), label = c("My workplace", "Nordstat 2026, University of Helsinki"))
 ```
 
 - I work as a biostatistician at the University of Oulu School of Medicine.
@@ -357,9 +355,11 @@ class: center, middle
 
 - Compare the distribution of the test statistic when it is computed: 
 
-  1. By running the AR algorithm multiple times.
+  1. By running the AR algorithm multiple times (grey bars).
   
-  2. Using Poisson-Binomial distribution.
+  2. Using Poisson-Binomial distribution (blue bars).
+
+- (These distributions will overlap in the barplots presented in the next slide.)
 
 ---
 
