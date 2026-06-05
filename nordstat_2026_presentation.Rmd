@@ -837,9 +837,6 @@ class: middle, title-slide
 .pull-left[
 # Thank you!
 <br/>
-## Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
-
-### (An alternative to standard Beamer presentations.) 
 ]
 
 .pull-right[
