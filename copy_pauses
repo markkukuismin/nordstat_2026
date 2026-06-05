@@ -31,7 +31,7 @@ class: center, middle
 # Very short author biography
 
 ---
-
+class: highlight-last-item
 ## Very short author biography
 
 ```{r out.width='100%', fig.height=5, eval=require('leaflet'), echo=FALSE}
@@ -44,7 +44,11 @@ leaflet() %>%
 
 - I work as a biostatistician at the University of Oulu School of Medicine.
 
+--
+
 - My research interests are high-dimensional statistic, network estimation, non-parametric methods, (multivariate) statistical tests, cluster analysis, and **rejection sampling** just to mention a few examples.
+
+--
 
 - Here I will introduce a novel multivariate test based on rejection sampling that works in high-dimensional case.
 
@@ -55,37 +59,61 @@ class: center, middle
 # Background and motivation
 
 ---
-
+class: highlight-last-item
 
 # Background and motivation
 
+--
+
 - All parametric statistical methods are built on assumptions about the population distribution of the random variable.
+
+--
 
 - In multivariate applications dealing high-dimensional data assume the population distribution is multivariate normal.
 
+--
+
 - For example,
+
+--
 
   - Gaussian Graphical Models. If not normal `->` strict conditional-independence interpretation becomes weaker.
 
+--
+
   - High-dimensional linear discriminant analysis. If not normal `->` other methods such as RF or SVMs may be more robust alternatives.
 
+--
+
   - Gaussian Mixture Models. If not normal `->` incorrectly merged clusters
+  
+--
 
 - In general: It is difficult to analyse data meaningfully without understanding the distribution from which they arise.
 
 ---
-
+class: highlight-last-item
 # Background and motivation
+
+--
 
 For the rest of this presentation, the null hypothesis can be defined as,
 
 $$H_0: f = f_0$$
 
+--
+
 - For example, $H_0: f\text{ is a multivariate normal density.}$
+
+--
 
 - Or a plain-language description: "*The underlying population distribution is multivariate normal.*"
 
+--
+
 - Several test have been proposed (e.g., Kolmogorov–Smirnov, energy test by Székely and Rizzo (2005), a high-dimensional test by Chen, H & Xia (2023) and many others)
+
+--
 
 - Until we have a test that can detect the difference in 100% power in every single scenario, I consider this as an open research problem...
 
@@ -96,106 +124,182 @@ class: center, middle
 # The AR statistic
 
 ---
-
+class: highlight-last-item
 # The AR statistic
+
+--
 
 - Based on the Accept-Reject (AR) algorithm.
 
+--
+
 $$\rho = \frac{1}{n}\sum_{i=1}^n \text{I}\Bigl(\frac{f_0(X_i)}{Df(X_i)} > U\Bigr).$$
+
+--
 
 - $\rho$ is the proportion of observations $X_i$, among $n$ observations drawn from a distribution with density $f$, that would be accepted as samples from the distribution with density $f_0$.
 
+--
+
 - Note: The fundamental objective of AR algorithms is to maximize the effective sample yield while minimizing sensitivity to a poor choice of the proposal distribution.
+
+--
 
 - My objective is the complete opposite: I want that the algorithm is sensitive to a poor choice of the proposal distribution that is used to evaluate the null hypothesis.
 
 ---
-
+class: highlight-last-item
 # The AR statistic
+
+--
 
 - The algorithm was adapted in Kuismin (2026) for statistical inference.
 
+--
+
 - Main idea: 
+
+--
 
 - Let $f$ be the true density (population density) and $f_0$ is the hypothesized density.
 
+--
+
 - Compute $\rho$ under null: Assume that $f_0$ and $f$ are the same distribution (set the normalizing constant $D = 1$).
+
+--
 
 - Instead of generating pseudo random numbers from $f$, compute $\rho$ with respect to the observed data. 
 
 ---
-
+class: highlight-last-item
 # The AR statistic
+
+--
 
 - A similar test statistic has been proposed previously, without establishing a connection to rejection sampling:
 
+--
+
   - Györfi, L., & Van Der Meulen, E. C. (1991) investigated a test statistic based on **Total variation distance** and showed how to build a procedure that is consistent against a large class of alternatives.
+  
+--
 
 - (I do not discuss about this test in detail and I am mentioning it to connect my test procedure in the earlier literature.)
+
+--
 
 - We will later talk a little more about total variation distance, which is the common denominator underlying both methods.
 
 ---
-
+class: highlight-last-item
 # The AR statistic
+
+--
 
 - Technical challenges:
 
+--
+
 - $f$ is unknown (naturally) and we only have observations from it. How to determine $f$?
+
+--
 
   - Solution: Estimate $f$, e.g., using KDE(...)
 
+--
+
 - $\rho$ depends on an external random variable $U$. How to determine a deterministic test statistic?
 
+--
+
   - Solution: Use $E_U(\rho)$ instead.
+
+--
 
 - Denote $\rho(\textbf{X}) = E_U(\rho) = n^{-1}\sum_{1=1}^n \min\left(1, f_0(X_i)/\widehat{f}(X_i)\right)$.
 
 ---
-
+class: highlight-last-item
 
 # The AR statistic
+
+--
 
 - The statistic has a handful of attractive properties.
 
+--
+
 - **Direct probabilistic interpretation:**
+
+--
 
   - The AR statistic can be interpreted as an estimated acceptance probability.
 
+--
+
 - **It measures how often observations would be accepted under the hypothesized population distribution.** 
+
+--
 
   - Values close to 1 indicate good agreement with the hypothesized distribution.
 
+--
+
   - Values close to 0 indicate lack of fit and evidence against the model.
+
+--
 
 - **Interval estimates for $\rho(\textbf{X})$ can be computed using simulations or Poisson-Binomial distribution.**
 
+--
+
 - **It is a global measure of distributional agreement.**
+
+--
 
   - It can detect differences in location, covariance, tail behavior, skewness, multimodality, and other shape features.
 
----
+--
 
+---
+class: highlight-last-item
 
 # The AR statistic
 
+--
+
 - The statistic depends on a likelihood ratio $f_0(X_i)/f(X_i)$.
+
+--
 
   - (Isn't it just an empirical likelihood test...)
 
+--
+
 - Yes, but the random threshold step that makes a big difference:
 
+--
+
   - Likelihood ratio and empirical likelihood tests asymptotic behavior is governed by the Kullback–Leibler divergence.
+  
+--
 
   - The AR statistic on the other hand is connected to *total variation distance*.
 
 ---
-
+class: highlight-last-item
 # Total variation distance
+
+--
 
 The total variation distance (TVD) between $f(x)$ and $f_0(x)$ is half the $L_1$-distance between densities or mass functions.
 
+--
+
 $$\|f(x) - f_0(x)\|_{\text{TV}} = \frac{1}{2}\int_{\mathcal{X}}|f(x) - f_0(x)|\, dx.$$
+
+--
 
 ```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
 library(ggplot2)
@@ -290,10 +394,14 @@ ggplot(plot_data, aes(x = x)) +
 ```
 
 ---
-
+class: highlight-last-item
 # Total variation distance
 
+--
+
 In my testing framework, the similarity between the true density $f$ and the hypothesized density $f_0$ can be interpreted in terms of TVD.
+
+--
 
 Asymptotically, as $n \to \infty$,
 
@@ -303,7 +411,7 @@ where $f$ is the true density (population density) and $f_0$ is the hypothesized
 - See Kuismin (2026) for more detailed description and proof.
 
 ---
-
+class: highlight-last-item
 # Total variation distance
 
 ```{r fig.width=9, fig.height=5, echo=FALSE, message=FALSE, warning=FALSE}
@@ -313,12 +421,16 @@ img <- readPNG("tvd_mvlogistic_p5.png")
  grid.raster(img)
 ```
 
+--
+
 - Population dist. is mv. logistic, $p=5$, location vector $\mathbf{0}$, and variance matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
+
+--
 
 - The black horizontal line is 1 - TVD between true pop. density and mvuniform densities, approximated using Monte Carlo integration. Dashed horizontal lines illustrate the 95% interval estimates.
 
 ---
-
+class: highlight-last-item
 # Total variation distance
 
 ```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
@@ -331,7 +443,7 @@ img <- readPNG("tvd_mvt_p5.png")
 - Population dist. is multivariate t, $p=5$, location vector $\mathbf{0}$, and variance/scale matrix $\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}$.
 
 ---
-
+class: highlight-last-item
 # Total variation distance
 
 ```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
@@ -350,24 +462,38 @@ class: center, middle
 # Distribution of the test statistic
 
 ---
-
+class: highlight-last-item
 # Distribution of the test statistic
+
+--
 
 - The observed test statistic follows Poisson-Binomial distribution (see Kuismin, 2026 for more details).
 
+--
+
 - Compare the distribution of the test statistic when it is computed: 
 
+--
+
   1. By running the AR algorithm multiple times.
+  
+--
   
   2. Using Poisson-Binomial distribution.
 
 ---
-
+class: highlight-last-item
 # Distribution of the test statistic
+
+--
 
 - Example when the population distribution is mvuniform, $p = 10$.
 
+--
+
 - The black vertical line is 1 - TVD between mvnormal and mvuniform densities, approximated using Monte Carlo integration.
+
+--
 
 ```{r message=FALSE, warning=FALSE, echo = FALSE, out.width='100%', fig.height=4}
 set.seed(1)
@@ -458,12 +584,18 @@ for(n in N){
 ```
 
 ---
-
+class: highlight-last-item
 # Challenges 
+
+--
 
 - The statistic depends on a density estimate $f$.
 
+--
+
 `->` Estimating $f$ is more or less hopeless in high-dimensional setting.
+
+--
 
 - However, let's test how well $\rho(\textbf{X})$ works when making decision whether to reject $H_0$ or not.
 
@@ -474,12 +606,18 @@ class: center, middle
 # Going beyond the limit
 
 ---
-
+class: highlight-last-item
 # Going beyond the limit
+
+--
 
 - Although density estimation becomes unfeasible when $p \gg n$ and $p$ increases, can we still get something useful?
 
+--
+
 - How does the AR statistic hold up?
+
+--
 
 - For comparison, the energy test statistic cannot be computed when $p > n$,
 
@@ -503,8 +641,10 @@ class: center, middle
 ## Interval estimates
 
 ---
-
+class: highlight-last-item
 ## TVD - multivariate logistic
+
+--
 
 - When there are "enough" samples and the population distribution is not too "challenging", the test works reasonably well.
 
@@ -527,8 +667,10 @@ img <- readPNG("simulations/figures/p20_Multivariate logistic.png")
 ```
 
 ---
-
+class: highlight-last-item
 ## TVD - multivariate logistic
+
+--
 
 - When $p \gg n$, interpretation of point and interval estimates becomes weaker/unreliable.
 
@@ -540,8 +682,10 @@ img <- readPNG("tvd_mvlogistic_p100.png")
 ```
 
 ---
-
+class: highlight-last-item
 ## Interval estimates - multivariate logistic
+
+--
 
 - However, the test statistic still seems to be able to distinguish the population density from the hypothesized $N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right)$ density. 
 
@@ -553,7 +697,7 @@ img <- readPNG("simulations/figures/p100_Multivariate logistic.png")
 ```
 
 ---
-
+class: highlight-last-item
 ## TVD - multivariate normal
 
 ```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
@@ -564,7 +708,7 @@ img <- readPNG("tvd_mvnormal_p100.png")
 ```
 
 ---
-
+class: highlight-last-item
 ## Interval estimates - multivariate normal
 
 ```{r fig.width=9, fig.height=5.5, echo=FALSE, message=FALSE, warning=FALSE}
@@ -583,13 +727,17 @@ class: center, middle
 ## Power simulations
 
 ---
-
+class: highlight-last-item
 ## Power simulations
+
+--
 
 $$H_0:
 \mathbf{X}_1, \ldots, \mathbf{X}_n
 \overset{\mathrm{i.i.d.}}{\sim}
 N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right).$$
+
+--
 
 - Consider five different multivariate population distributions:
 
@@ -599,24 +747,34 @@ N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right).$$
   - Multivariate Burr, $MVBURR(1, \mathbf{1}, \mathbf{1})$.
   - Multivariate uniform, $MVUNIF(1)$.
 
+--
+
 - $n = 50$, $p \in \{40, 50, 70\}$.
+
+--
 
 - Estimate the power using $p-$values and Monte Carlo simulations.
 
 ---
-
+class: highlight-last-item
 ## Power simulations
 
+--
+
 - Compare the AR test with three other tests for multivariate normality:
+
+--
 
   - Energy test (Székely & Rizzo, 2005).
   - NEW test (Chen & Xia, 2023).
   - Zhou-Shao's test ("Tn test") (Zhou & Shao, 2014). 
 
+--
+
 - Power evaluation: estimate how often the test rejects $H_0$ under different alternatives at a pre-specified Type I error rate $\alpha = 0.05$.
 
 ---
-
+class: highlight-last-item
 ## Power simulations
 
 ```{r echo = FALSE}
@@ -637,6 +795,24 @@ DT::datatable(
   fillContainer = FALSE, options = list(pageLength = 4)
 )
 ```
+
+---
+
+class: center, middle
+
+# Future challenges 
+
+---
+class: highlight-last-item
+# Future challenges 
+
+--
+
+- What is the sampling distribution of the statistic under null...
+
+--
+
+- Use the framework to examine if the population distribution is a composition of two power-laws...
 
 ---
 

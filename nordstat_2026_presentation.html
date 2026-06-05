@@ -4,7 +4,7 @@
     <title>Pushing the AR test beyond the limit</title>
     <meta charset="utf-8" />
     <meta name="author" content="Markku Kuismin" />
-    <meta name="date" content="2026-06-03" />
+    <meta name="date" content="2026-06-05" />
     <script src="nordstat_2026_presentation_files/header-attrs-2.31/header-attrs.js"></script>
     <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="nordstat_2026_presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
@@ -43,7 +43,7 @@ class: center, middle, inverse, title-slide
 ### University of Oulu, Northern Finland Birth Cohorts
 ]
 .date[
-### 2026-06-03
+### 2026-06-05
 ]
 
 ---
@@ -67,19 +67,15 @@ class: center, middle
 # Very short author biography
 
 ---
-class: highlight-last-item
+
 ## Very short author biography
 
-<div class="leaflet html-widget html-fill-item" id="htmlwidget-03f8429c19565696c7a8" style="width:100%;height:360px;"></div>
-<script type="application/json" data-for="htmlwidget-03f8429c19565696c7a8">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
+<div class="leaflet html-widget html-fill-item" id="htmlwidget-9e49e9c68820cb2c4266" style="width:100%;height:360px;"></div>
+<script type="application/json" data-for="htmlwidget-9e49e9c68820cb2c4266">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"https://openstreetmap.org/copyright/\">OpenStreetMap<\/a>,  <a href=\"https://opendatacommons.org/licenses/odbl/\">ODbL<\/a>"}]},{"method":"addMarkers","args":[[65.00749999999999,60.1696],[25.5242,24.9495],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,["My workplace","We are here"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"setView":[[62.58855,25.23685],4.5,[]],"limits":{"lat":[60.1696,65.00749999999999],"lng":[24.9495,25.5242]}},"evals":[],"jsHooks":[]}</script>
 
 - I work as a biostatistician at the University of Oulu School of Medicine.
 
---
-
 - My research interests are high-dimensional statistic, network estimation, non-parametric methods, (multivariate) statistical tests, cluster analysis, and **rejection sampling** just to mention a few examples.
-
---
 
 - Here I will introduce a novel multivariate test based on rejection sampling that works in high-dimensional case.
 
@@ -90,61 +86,37 @@ class: center, middle
 # Background and motivation
 
 ---
-class: highlight-last-item
+
 
 # Background and motivation
 
---
-
 - All parametric statistical methods are built on assumptions about the population distribution of the random variable.
-
---
 
 - In multivariate applications dealing high-dimensional data assume the population distribution is multivariate normal.
 
---
-
 - For example,
-
---
 
   - Gaussian Graphical Models. If not normal `-&gt;` strict conditional-independence interpretation becomes weaker.
 
---
-
   - High-dimensional linear discriminant analysis. If not normal `-&gt;` other methods such as RF or SVMs may be more robust alternatives.
 
---
-
   - Gaussian Mixture Models. If not normal `-&gt;` incorrectly merged clusters
-  
---
 
 - In general: It is difficult to analyse data meaningfully without understanding the distribution from which they arise.
 
 ---
-class: highlight-last-item
-# Background and motivation
 
---
+# Background and motivation
 
 For the rest of this presentation, the null hypothesis can be defined as,
 
 `$$H_0: f = f_0$$`
 
---
-
 - For example, `\(H_0: f\text{ is a multivariate normal density.}\)`
-
---
 
 - Or a plain-language description: "*The underlying population distribution is multivariate normal.*"
 
---
-
 - Several test have been proposed (e.g., Kolmogorov–Smirnov, energy test by Székely and Rizzo (2005), a high-dimensional test by Chen, H &amp; Xia (2023) and many others)
-
---
 
 - Until we have a test that can detect the difference in 100% power in every single scenario, I consider this as an open research problem...
 
@@ -155,194 +127,114 @@ class: center, middle
 # The AR statistic
 
 ---
-class: highlight-last-item
-# The AR statistic
 
---
+# The AR statistic
 
 - Based on the Accept-Reject (AR) algorithm.
 
---
-
 `$$\rho = \frac{1}{n}\sum_{i=1}^n \text{I}\Bigl(\frac{f_0(X_i)}{Df(X_i)} &gt; U\Bigr).$$`
-
---
 
 - `\(\rho\)` is the proportion of observations `\(X_i\)`, among `\(n\)` observations drawn from a distribution with density `\(f\)`, that would be accepted as samples from the distribution with density `\(f_0\)`.
 
---
-
 - Note: The fundamental objective of AR algorithms is to maximize the effective sample yield while minimizing sensitivity to a poor choice of the proposal distribution.
-
---
 
 - My objective is the complete opposite: I want that the algorithm is sensitive to a poor choice of the proposal distribution that is used to evaluate the null hypothesis.
 
 ---
-class: highlight-last-item
-# The AR statistic
 
---
+# The AR statistic
 
 - The algorithm was adapted in Kuismin (2026) for statistical inference.
 
---
-
 - Main idea: 
-
---
 
 - Let `\(f\)` be the true density (population density) and `\(f_0\)` is the hypothesized density.
 
---
-
 - Compute `\(\rho\)` under null: Assume that `\(f_0\)` and `\(f\)` are the same distribution (set the normalizing constant `\(D = 1\)`).
-
---
 
 - Instead of generating pseudo random numbers from `\(f\)`, compute `\(\rho\)` with respect to the observed data. 
 
 ---
-class: highlight-last-item
-# The AR statistic
 
---
+# The AR statistic
 
 - A similar test statistic has been proposed previously, without establishing a connection to rejection sampling:
 
---
-
   - Györfi, L., &amp; Van Der Meulen, E. C. (1991) investigated a test statistic based on **Total variation distance** and showed how to build a procedure that is consistent against a large class of alternatives.
-  
---
 
 - (I do not discuss about this test in detail and I am mentioning it to connect my test procedure in the earlier literature.)
-
---
 
 - We will later talk a little more about total variation distance, which is the common denominator underlying both methods.
 
 ---
-class: highlight-last-item
-# The AR statistic
 
---
+# The AR statistic
 
 - Technical challenges:
 
---
-
 - `\(f\)` is unknown (naturally) and we only have observations from it. How to determine `\(f\)`?
-
---
 
   - Solution: Estimate `\(f\)`, e.g., using KDE(...)
 
---
-
 - `\(\rho\)` depends on an external random variable `\(U\)`. How to determine a deterministic test statistic?
 
---
-
   - Solution: Use `\(E_U(\rho)\)` instead.
-
---
 
 - Denote `\(\rho(\textbf{X}) = E_U(\rho) = n^{-1}\sum_{1=1}^n \min\left(1, f_0(X_i)/\widehat{f}(X_i)\right)\)`.
 
 ---
-class: highlight-last-item
+
 
 # The AR statistic
-
---
 
 - The statistic has a handful of attractive properties.
 
---
-
 - **Direct probabilistic interpretation:**
-
---
 
   - The AR statistic can be interpreted as an estimated acceptance probability.
 
---
-
 - **It measures how often observations would be accepted under the hypothesized population distribution.** 
-
---
 
   - Values close to 1 indicate good agreement with the hypothesized distribution.
 
---
-
   - Values close to 0 indicate lack of fit and evidence against the model.
-
---
 
 - **Interval estimates for `\(\rho(\textbf{X})\)` can be computed using simulations or Poisson-Binomial distribution.**
 
---
-
 - **It is a global measure of distributional agreement.**
-
---
 
   - It can detect differences in location, covariance, tail behavior, skewness, multimodality, and other shape features.
 
---
-
 ---
-class: highlight-last-item
+
 
 # The AR statistic
 
---
-
 - The statistic depends on a likelihood ratio `\(f_0(X_i)/f(X_i)\)`.
-
---
 
   - (Isn't it just an empirical likelihood test...)
 
---
-
 - Yes, but the random threshold step that makes a big difference:
 
---
-
   - Likelihood ratio and empirical likelihood tests asymptotic behavior is governed by the Kullback–Leibler divergence.
-  
---
 
   - The AR statistic on the other hand is connected to *total variation distance*.
 
 ---
-class: highlight-last-item
-# Total variation distance
 
---
+# Total variation distance
 
 The total variation distance (TVD) between `\(f(x)\)` and `\(f_0(x)\)` is half the `\(L_1\)`-distance between densities or mass functions.
 
---
-
 `$$\|f(x) - f_0(x)\|_{\text{TV}} = \frac{1}{2}\int_{\mathcal{X}}|f(x) - f_0(x)|\, dx.$$`
-
---
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
 
 ---
-class: highlight-last-item
+
 # Total variation distance
 
---
-
 In my testing framework, the similarity between the true density `\(f\)` and the hypothesized density `\(f_0\)` can be interpreted in terms of TVD.
-
---
 
 Asymptotically, as `\(n \to \infty\)`,
 
@@ -352,21 +244,17 @@ where `\(f\)` is the true density (population density) and `\(f_0\)` is the hypo
 - See Kuismin (2026) for more detailed description and proof.
 
 ---
-class: highlight-last-item
+
 # Total variation distance
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
 
---
-
 - Population dist. is mv. logistic, `\(p=5\)`, location vector `\(\mathbf{0}\)`, and variance matrix `\(\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}\)`.
-
---
 
 - The black horizontal line is 1 - TVD between true pop. density and mvuniform densities, approximated using Monte Carlo integration. Dashed horizontal lines illustrate the 95% interval estimates.
 
 ---
-class: highlight-last-item
+
 # Total variation distance
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
@@ -374,7 +262,7 @@ class: highlight-last-item
 - Population dist. is multivariate t, `\(p=5\)`, location vector `\(\mathbf{0}\)`, and variance/scale matrix `\(\mathbf{I} = diag(1, \ldots, 1)_{5 \times 5}\)`.
 
 ---
-class: highlight-last-item
+
 # Total variation distance
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
@@ -388,54 +276,34 @@ class: center, middle
 # Distribution of the test statistic
 
 ---
-class: highlight-last-item
-# Distribution of the test statistic
 
---
+# Distribution of the test statistic
 
 - The observed test statistic follows Poisson-Binomial distribution (see Kuismin, 2026 for more details).
 
---
-
 - Compare the distribution of the test statistic when it is computed: 
 
---
-
   1. By running the AR algorithm multiple times.
-  
---
   
   2. Using Poisson-Binomial distribution.
 
 ---
-class: highlight-last-item
-# Distribution of the test statistic
 
---
+# Distribution of the test statistic
 
 - Example when the population distribution is mvuniform, `\(p = 10\)`.
 
---
-
 - The black vertical line is 1 - TVD between mvnormal and mvuniform densities, approximated using Monte Carlo integration.
-
---
 
 &lt;img src="nordstat_2026_presentation_files/figure-html/unnamed-chunk-7-1.png" alt="" width="100%" /&gt;
 
 ---
-class: highlight-last-item
-# Challenges 
 
---
+# Challenges 
 
 - The statistic depends on a density estimate `\(f\)`.
 
---
-
 `-&gt;` Estimating `\(f\)` is more or less hopeless in high-dimensional setting.
-
---
 
 - However, let's test how well `\(\rho(\textbf{X})\)` works when making decision whether to reject `\(H_0\)` or not.
 
@@ -446,18 +314,12 @@ class: center, middle
 # Going beyond the limit
 
 ---
-class: highlight-last-item
-# Going beyond the limit
 
---
+# Going beyond the limit
 
 - Although density estimation becomes unfeasible when `\(p \gg n\)` and `\(p\)` increases, can we still get something useful?
 
---
-
 - How does the AR statistic hold up?
-
---
 
 - For comparison, the energy test statistic cannot be computed when `\(p &gt; n\)`,
 
@@ -490,10 +352,8 @@ class: center, middle
 ## Interval estimates
 
 ---
-class: highlight-last-item
-## TVD - multivariate logistic
 
---
+## TVD - multivariate logistic
 
 - When there are "enough" samples and the population distribution is not too "challenging", the test works reasonably well.
 
@@ -506,33 +366,29 @@ class: highlight-last-item
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-10-1.png)&lt;!-- --&gt;
 
 ---
-class: highlight-last-item
-## TVD - multivariate logistic
 
---
+## TVD - multivariate logistic
 
 - When `\(p \gg n\)`, interpretation of point and interval estimates becomes weaker/unreliable.
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-11-1.png)&lt;!-- --&gt;
 
 ---
-class: highlight-last-item
-## Interval estimates - multivariate logistic
 
---
+## Interval estimates - multivariate logistic
 
 - However, the test statistic still seems to be able to distinguish the population density from the hypothesized `\(N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right)\)` density. 
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-12-1.png)&lt;!-- --&gt;
 
 ---
-class: highlight-last-item
+
 ## TVD - multivariate normal
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-13-1.png)&lt;!-- --&gt;
 
 ---
-class: highlight-last-item
+
 ## Interval estimates - multivariate normal
 
 ![](nordstat_2026_presentation_files/figure-html/unnamed-chunk-14-1.png)&lt;!-- --&gt;
@@ -546,17 +402,13 @@ class: center, middle
 ## Power simulations
 
 ---
-class: highlight-last-item
-## Power simulations
 
---
+## Power simulations
 
 `$$H_0:
 \mathbf{X}_1, \ldots, \mathbf{X}_n
 \overset{\mathrm{i.i.d.}}{\sim}
 N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right).$$`
-
---
 
 - Consider five different multivariate population distributions:
 
@@ -566,58 +418,30 @@ N_p\!\left(\boldsymbol{0}, \boldsymbol{I}\right).$$`
   - Multivariate Burr, `\(MVBURR(1, \mathbf{1}, \mathbf{1})\)`.
   - Multivariate uniform, `\(MVUNIF(1)\)`.
 
---
-
 - `\(n = 50\)`, `\(p \in \{40, 50, 70\}\)`.
-
---
 
 - Estimate the power using `\(p-\)`values and Monte Carlo simulations.
 
 ---
-class: highlight-last-item
+
 ## Power simulations
 
---
-
 - Compare the AR test with three other tests for multivariate normality:
-
---
 
   - Energy test (Székely &amp; Rizzo, 2005).
   - NEW test (Chen &amp; Xia, 2023).
   - Zhou-Shao's test ("Tn test") (Zhou &amp; Shao, 2014). 
 
---
-
 - Power evaluation: estimate how often the test rejects `\(H_0\)` under different alternatives at a pre-specified Type I error rate `\(\alpha = 0.05\)`.
 
 ---
-class: highlight-last-item
+
 ## Power simulations
 
 
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-a1836e7253d95be779bb" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-a1836e7253d95be779bb">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","6","7","8","9","11","12","13","14","16","17","18","19","21","22","23","24","26","27","28","29","31","32","33","34","36","37","38","39","41","42","43","44","46","47","48","49","51","52","53","54","56","57","58","59","61","62","63","64","66","67","68","69","71","72","73","74"],["AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn"],["1","0.91","0.99","0.99","1","0.94","0.05","1","1","1",null,"1","0.05","0.06","0.05","0.2","0.03","0.05","0.05","1","0.02","0.06",null,"1","1","0.09","0.24","0.49","1","0.05","0.04","1","1","0.06",null,"1","1","0.57","1","1","1","0.5","0.26","1","1","0.41",null,"1","1","0.12","0.64","0.8","1","0.05","0.05","1","1","0.01",null,"1"],["MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)"],["50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50"],["40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Method<\/th>\n      <th>est. Power<\/th>\n      <th>Distribution<\/th>\n      <th>n<\/th>\n      <th>p<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Method","targets":1},{"name":"est. Power","targets":2},{"name":"Distribution","targets":3},{"name":"n","targets":4},{"name":"p","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
-
----
-
-class: center, middle
-
-# Future challenges 
-
----
-class: highlight-last-item
-# Future challenges 
-
---
-
-- What is the sampling distribution of the statistic under null...
-
---
-
-- Use the framework to examine if the population distribution is a composition of two power-laws...
+<div class="datatables html-widget html-fill-item" id="htmlwidget-0cdd46b7302d22cf9c3f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-0cdd46b7302d22cf9c3f">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","6","7","8","9","11","12","13","14","16","17","18","19","21","22","23","24","26","27","28","29","31","32","33","34","36","37","38","39","41","42","43","44","46","47","48","49","51","52","53","54","56","57","58","59","61","62","63","64","66","67","68","69","71","72","73","74"],["AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn","AR","NEW","E","Tn"],["1","0.91","0.99","0.99","1","0.94","0.05","1","1","1",null,"1","0.05","0.06","0.05","0.2","0.03","0.05","0.05","1","0.02","0.06",null,"1","1","0.09","0.24","0.49","1","0.05","0.04","1","1","0.06",null,"1","1","0.57","1","1","1","0.5","0.26","1","1","0.41",null,"1","1","0.12","0.64","0.8","1","0.05","0.05","1","1","0.01",null,"1"],["MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVT(0, I, 5)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVN(0, I)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVLOGIS(0, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVBURR(1, 1, 1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)","MVUNIF(1)"],["50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50","50"],["40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70","40","40","40","40","50","50","50","50","70","70","70","70"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>Method<\/th>\n      <th>est. Power<\/th>\n      <th>Distribution<\/th>\n      <th>n<\/th>\n      <th>p<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":4,"columnDefs":[{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"Method","targets":1},{"name":"est. Power","targets":2},{"name":"Distribution","targets":3},{"name":"n","targets":4},{"name":"p","targets":5}],"order":[],"autoWidth":false,"orderClasses":false,"lengthMenu":[4,10,25,50,100]}},"evals":[],"jsHooks":[]}</script>
 
 ---
 
